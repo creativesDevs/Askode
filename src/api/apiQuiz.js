@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const VITE_API_KEY_QUIZ = import.meta.env.VITE_API_KEY;
+
+const VITE_API_KEY_QUIZ = import.meta.env.VITE_API_KEY_QUIZgi;
 
 const defaultOptions = {
   headers: {
@@ -8,7 +9,9 @@ const defaultOptions = {
   },
 };
 
+
 async function getQuiz(headers = {}) {
+  console.log(VITE_API_KEY_QUIZ)
   
   const options = {
     ...defaultOptions,
