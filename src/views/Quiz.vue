@@ -12,7 +12,7 @@
   </template>
   
   <script>
-  import { getQuiz } from '../api/apiQuiz.js';
+  import  getQuiz  from '../api/apiQuiz.js';
   
   export default {
     name: 'Quiz',
