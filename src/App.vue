@@ -1,6 +1,6 @@
 <template>
 <!-- Render routes here -->
-<RouterView/>
+<RouterView/> <!-- Renderizar las vistas = visualizar las vistas -->
 
 </template>
 
