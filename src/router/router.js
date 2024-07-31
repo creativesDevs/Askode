@@ -1,6 +1,5 @@
-import Home from "../views/Home.vue";
-import Quiz from "../views/Quiz.vue";
-import NotFound from "../views/NotFound.vue";
+
+import NotFound from "./views/NotFound.vue";
 import { createWebHistory, createRouter } from 'vue-router'
 
 const routes = [
