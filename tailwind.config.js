@@ -2,7 +2,13 @@
 export default {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'subtitle': ['"Bruno Ace SC"', 'sans-serif'],
+        'title-text': ['"Bruno Ace"', 'sans-serif'],
+        
+      },
+    },
   },
   plugins: [],
 }

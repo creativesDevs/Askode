@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <section class="">
     <h1 class="text-black">Quiz</h1>
     <div v-if="loading" class="loading">Loading...</div>
     <div v-if="errorMessage" class="error">{{ errorMessage }}</div>
     <div v-if="quizData">
+      <div>Correct answers: {{ countCorrectAnswers }} of {{ this.quizData.length }}</div>
       <span>{{ currentQuestion.question }}</span>
       <ul>
         <span>Answers:</span>
@@ -19,7 +20,7 @@
       </ul>
       <button v-if="isAnswerSelected" @click="nextQuestion" :disabled="currentQuiz >= quizData.length - 1">Next</button>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
