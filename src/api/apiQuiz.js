@@ -1,25 +1,17 @@
 import axios from 'axios';
 
-const VITE_API_KEY_QUIZ = import.meta.env.VITE_API_KEY;
+const VITE_API_KEY_QUIZ = import.meta.env.VITE_API_KEY_QUIZ;
 
-const defaultOptions = {
-  headers: {
-    'X-Api-Key': VITE_API_KEY_QUIZ,
-  },
+async function getQuiz(params = {}) {
+  const defaultOptions = {
+    headers: {
+        'X-Api-Key': VITE_API_KEY_QUIZ,
+    },
+    params:params,
 };
 
-async function getQuiz(headers = {}) {
-  
-  const options = {
-    ...defaultOptions,
-    headers: {
-      ...defaultOptions.headers,
-      ...headers,
-    },
-  };
-
   try {
-    const response = await axios.get('https://quizapi.io/api/v1/questions', options);
+    const response = await axios.get('https://quizapi.io/api/v1/questions', defaultOptions);
     return response.data;
   } catch (error) {
     console.error('Error fetching data:', error);

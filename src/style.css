@@ -1,3 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=Bruno+Ace&family=Bruno+Ace+SC&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+
+  body {
+    background-color: #08060b;
+    
+    color: white;
+  }
+  
+
+  h1,
+  p,
+  span,
+  a {
+    font-family: "Bruno Ace";
+  }
+  h2 {
+    font-family: "Bruno Ace SC";
+  }
+}
