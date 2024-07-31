@@ -1,5 +1,4 @@
 <template>
-  
 <!-- Render routes here -->
 <RouterView/>
 
