@@ -1,5 +1,5 @@
 <template>
-  <h2 class="">app</h2>
+  
 <!-- Render routes here -->
 <RouterView/>
 

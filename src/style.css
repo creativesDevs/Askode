@@ -4,11 +4,13 @@
 @tailwind utilities;
 
 @layer base {
+
   body {
     background-color: #08060b;
-    min-height: 100vh;
+    
     color: white;
   }
+  
 
   h1,
   p,
