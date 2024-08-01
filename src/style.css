@@ -23,4 +23,17 @@
   h2 {
     font-family: "Bruno Ace SC";
   }
+  h3{
+    font-family: "Press Start 2P";
+  }
+  
+}
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(rgba(204, 0, 255, 1) 0%, rgba(233, 233, 233, 1) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }

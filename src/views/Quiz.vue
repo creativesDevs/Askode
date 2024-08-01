@@ -1,52 +1,118 @@
 <template>
-<main class="flex flex-col gap-14 items-center w-full h-full relative mt-20">
-    <div class="absolute h-full w-full bg-combined-gradient "></div>
+  <main class="flex flex-col gap-14 items-center w-full h-full relative mt-20">
+    <div class="absolute h-full w-full bg-combined-gradient"></div>
 
     <div class="absolute top-[-50%] left-[25%] bg-gradient-radial-2 w-[50vw] h-[50vw] rounded-full blur-[350px]"></div>
+
     <div v-if="loading || errorMessage">
-        <div class="loading">Loading...</div>
-        <span class="error">{{ errorMessage }}</span>
+      <div class="loading">Loading...</div>
+      <span class="error">{{ errorMessage }}</span>
     </div>
-    <div class="absolute w-[80vw] flex justify-between px-5" v-if="quizData">
-      <span class="">Correct answers: {{ countCorrectAnswers }} of {{ this.quizData.length }}</span>
-      <span class="">Question {{ currentQuiz }}</span>
-      </div>
-      <!-- Game -->
-      <div v-if="quizData" class="w-[80vw] min-h-[300px] bg-black/70 p-10 z-10 rounded-lg flex flex-col justify-center relative">
 
-        <h2 class="text-[2rem] text-center py-2">{{ currentQuestion.question }}</h2>
-        <span class="absolute bottom-2 right-[40%] text-[#1ffffb] animate-pulse" v-if="multipleCorrectAnswers">Select all the correct answers</span>
+    <!-- Progress Bar -->
+    <div v-if="quizData" class="w-full max-w-[80vw] h-10 bg-[#eb8ed876] rounded-t-lg absolute  -top-[64] z-50">
+      <div
+        class="bg-[#68ff1dbe] h-full rounded-t-lg transition-all duration-300"
+        :style="{ width: progressBarWidth }"
+      ></div>
+      <span class="absolute inset-0 flex items-center justify-center text-white">
+        Correct answers: {{ countCorrectAnswers }} of {{ quizData.length }}
+      </span>
     </div>
+
+    <!-- Game -->
+    <div v-if="quizData" class="w-[80vw] min-h-[300px] bg-black/70 p-10 z-10 rounded-lg flex flex-col justify-center relative">
+      <h3 class="text-2xl text-center py-2 text-gradient">{{ currentQuestion.question }}</h3>
+      <span class="absolute bottom-2 right-[40%] text-[#1ffffb] animate-pulse" v-if="multipleCorrectAnswers">
+        Select all the correct answers
+      </span>
+      <span class="absolute bottom-5 right-5">Question {{ currentQuiz }}</span>
+    </div>
+
     <div v-if="quizData" class="z-10 w-[70vw]">
-
-        <ul class="grid grid-cols-2 z-10  gap-x-9 gap-y-2">
-            <li v-for="(answer, index) in filteredAnswers(currentQuestion.answers)" :key="index">
-                <button class="py-5 px-5 rounded-full border-2 border-transparent  flex w-full" :class="buttonClass(index)" @click="selectAnswer(index)" :disabled="isAnswerSelected">
-                    <div class="flex-shrink-0">{{`${id_Answers[index]} ) `}}</div> <span class="pl-3">{{ answer }}</span>
-                </button>
-            </li>
-        </ul>
+      <ul class="grid grid-cols-2 z-10 gap-x-9 gap-y-2">
+        <li v-for="(answer, index) in filteredAnswers(currentQuestion.answers)" :key="index">
+          <button
+            class="py-5 px-5 rounded-xl border-2 border-transparent flex min-w-[50%] duration-300 hover:-translate-y-2 hover:scale-110 hover:translate-x-4"
+            :class="buttonClass(index)"
+            @click="selectAnswer(index)"
+            :disabled="isAnswerSelected"
+          >
+            <div class="flex-shrink-0">{{ `${id_Answers[index]} ) ` }}</div>
+            <span class="pl-3">{{ answer }}</span>
+          </button>
+        </li>
+      </ul>
     </div>
-    <!-- Buttons to move for questions -->
-    <button class="text-6xl z-10 fixed right-10 top-[50%] translate-y-[-50%]" v-if="isAnswerSelected && quizData " @click="nextQuestion" :disabled="currentQuiz >= quizData.length - 1"><svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(180)">
-            <path d="M56.25 12.5H50V18.75H43.75V25H37.5V31.25H31.25V43.75H37.5V50H43.75V56.25H50V62.5H56.25V12.5ZM18.75 12.5H25V62.5H18.75V12.5Z" fill="url(#paint0_linear_189_9270)" />
-            <defs>
-                <linearGradient id="paint0_linear_189_9270" x1="37.5" y1="12.5" x2="37.5" y2="62.5" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#CC00FF" />
-                    <stop offset="1" stop-color="white" />
-                </linearGradient>
-            </defs>
-        </svg></button>
-    <button class="text-6xl z-10  left-10 top-[50%] translate-y-[-50%] fixed opacity-80 hover:opacity-100 duration-300" v-if="quizData" @click="lastQuestion"><svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(360)">
-            <path d="M56.25 12.5H50V18.75H43.75V25H37.5V31.25H31.25V43.75H37.5V50H43.75V56.25H50V62.5H56.25V12.5ZM18.75 12.5H25V62.5H18.75V12.5Z" fill="url(#paint0_linear_189_9270)" />
-            <defs>
-                <linearGradient id="paint0_linear_189_9270" x1="37.5" y1="12.5" x2="57.5" y2="92.5" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#CC00FF" />
-                    <stop offset="1" stop-color="white" />
-                </linearGradient>
-            </defs>
-        </svg></button>
-</main>
+
+    <!-- Navigation Buttons -->
+    <button
+      class="text-6xl z-10 fixed right-10 top-[50%] translate-y-[-50%] opacity-80 hover:opacity-100 duration-300"
+      v-if="isAnswerSelected && quizData"
+      @click="nextQuestion"
+      :disabled="currentQuiz >= quizData.length - 1"
+    >
+      <svg
+        width="75"
+        height="75"
+        viewBox="0 0 75 75"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        transform="rotate(180)"
+      >
+        <path
+          d="M56.25 12.5H50V18.75H43.75V25H37.5V31.25H31.25V43.75H37.5V50H43.75V56.25H50V62.5H56.25V12.5ZM18.75 12.5H25V62.5H18.75V12.5Z"
+          fill="url(#paint0_linear_1)"
+        />
+        <defs>
+          <linearGradient
+            id="paint0_linear_1"
+            x1="37.5"
+            y1="2.5"
+            x2="37.5"
+            y2="42.5"
+            gradientUnits="userSpaceOnUse"
+          >
+          <stop stop-color="white" />
+          <stop offset="1" stop-color="#CC00FF" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </button>
+
+    <button
+      class="text-6xl z-10 left-10 top-[50%] translate-y-[-50%] fixed opacity-80 hover:opacity-100 duration-300"
+      v-if="quizData"
+      @click="lastQuestion"
+    >
+      <svg
+        width="75"
+        height="75"
+        viewBox="0 0 75 75"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        transform="rotate(360)"
+      >
+        <path
+          d="M56.25 12.5H50V18.75H43.75V25H37.5V31.25H31.25V43.75H37.5V50H43.75V56.25H50V62.5H56.25V12.5ZM18.75 12.5H25V62.5H18.75V12.5Z"
+          fill="url(#paint0_linear_2)"
+        />
+        <defs>
+          <linearGradient
+            id="paint0_linear_2"
+            x1="37.5"
+            y1="12.5"
+            x2="57.5"
+            y2="92.5"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#CC00FF" />
+            <stop offset="1" stop-color="white" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </button>
+  </main>
 </template>
 
 <script>
@@ -68,7 +134,7 @@ export default {
             correctAnswers: [],
             isAnswerSelected: false,
             multipleCorrectAnswers: false,
-            
+
         };
     },
     computed: {
@@ -79,6 +145,11 @@ export default {
         multipleCorrectAnswers() {
             return this.quizData ? this.quizData[this.currentQuiz].multiple_correct_answers === 'true' : false
         },
+        progressBarWidth() {
+            const totalQuestions = this.quizData.length;
+            const progressPercentage = totalQuestions > 0 ? (this.countCorrectAnswers / totalQuestions) * 100 : 0;
+            return `${progressPercentage}%`;
+        }
     },
     methods: {
 
@@ -235,9 +306,24 @@ export default {
     /* Asegura que el borde no cambie el tamaño del botón */
 }
 
-button {
-    box-sizing: border-box;
-    padding: 10px;
-    /* Asegura que el borde no cambie el tamaño del botón */
+
+.progress {
+  height: 50px;
+  margin-top: 10px;
+  background-color: #061c29;
+  position: relative;
+}
+.bar {
+  height: 50px;
+  background-color: #721bd4;
+  transition: all 0.3s linear;
+}
+.status {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  text-align: center;
+  color: #fff;
+  width: 100%;
 }
 </style>
