@@ -6,6 +6,7 @@ export default {
       fontFamily: {
         'subtitle': ['"Bruno Ace SC"', 'sans-serif'],
         'title-text': ['"Bruno Ace"', 'sans-serif'],
+        'title':['"Press Start 2P"', 'sans-serif']
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(circle,#8331A5 0%, #430F58 100%)',
