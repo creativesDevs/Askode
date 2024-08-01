@@ -7,14 +7,15 @@
         <div class="loading">Loading...</div>
         <span class="error">{{ errorMessage }}</span>
     </div>
-    <div class="relative w-[80vw] flex justify-between" v-if="quizData">
-        <span class="absolute">Correct answers: {{ countCorrectAnswers }} of {{ this.quizData.length }}</span>
-    </div>
-    <!-- Game -->
-    <div v-if="quizData" class="w-[80vw] min-h-[300px] bg-black/40 p-10 z-10 rounded-lg flex flex-col justify-center relative">
+    <div class="absolute w-[80vw] flex justify-between px-5" v-if="quizData">
+      <span class="">Correct answers: {{ countCorrectAnswers }} of {{ this.quizData.length }}</span>
+      <span class="">Question {{ currentQuiz }}</span>
+      </div>
+      <!-- Game -->
+      <div v-if="quizData" class="w-[80vw] min-h-[300px] bg-black/70 p-10 z-10 rounded-lg flex flex-col justify-center relative">
 
         <h2 class="text-[2rem] text-center py-2">{{ currentQuestion.question }}</h2>
-        <span class="absolute bottom-2 right-5" v-if="multipleCorrectAnswers">Select all the correct answers</span>
+        <span class="absolute bottom-2 right-[40%] text-[#1ffffb] animate-pulse" v-if="multipleCorrectAnswers">Select all the correct answers</span>
     </div>
     <div v-if="quizData" class="z-10 w-[70vw]">
 
@@ -26,24 +27,25 @@
             </li>
         </ul>
     </div>
-    <button class="text-6xl z-10  absolute right-24 top-[60%]" v-if="isAnswerSelected && quizData " @click="nextQuestion" :disabled="currentQuiz >= quizData.length - 1"><svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(180)">
-    <path d="M56.25 12.5H50V18.75H43.75V25H37.5V31.25H31.25V43.75H37.5V50H43.75V56.25H50V62.5H56.25V12.5ZM18.75 12.5H25V62.5H18.75V12.5Z" fill="url(#paint0_linear_189_9270)" />
-    <defs>
-        <linearGradient id="paint0_linear_189_9270" x1="37.5" y1="12.5" x2="37.5" y2="62.5" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#CC00FF" />
-            <stop offset="1" stop-color="white" />
-        </linearGradient>
-    </defs>
-</svg></button>
-    <button class="text-6xl z-10  absolute left-24 top-[60%]" v-if="isAnswerSelected && quizData " @click="lastQuestion" :disabled="currentQuiz >= quizData.length - 1"><svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(360)">
-    <path d="M56.25 12.5H50V18.75H43.75V25H37.5V31.25H31.25V43.75H37.5V50H43.75V56.25H50V62.5H56.25V12.5ZM18.75 12.5H25V62.5H18.75V12.5Z" fill="url(#paint0_linear_189_9270)" />
-    <defs>
-        <linearGradient id="paint0_linear_189_9270" x1="37.5" y1="12.5" x2="37.5" y2="62.5" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#CC00FF" />
-            <stop offset="1" stop-color="white" />
-        </linearGradient>
-    </defs>
-</svg></button>
+    <!-- Buttons to move for questions -->
+    <button class="text-6xl z-10 fixed right-10 top-[50%] translate-y-[-50%]" v-if="isAnswerSelected && quizData " @click="nextQuestion" :disabled="currentQuiz >= quizData.length - 1"><svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(180)">
+            <path d="M56.25 12.5H50V18.75H43.75V25H37.5V31.25H31.25V43.75H37.5V50H43.75V56.25H50V62.5H56.25V12.5ZM18.75 12.5H25V62.5H18.75V12.5Z" fill="url(#paint0_linear_189_9270)" />
+            <defs>
+                <linearGradient id="paint0_linear_189_9270" x1="37.5" y1="12.5" x2="37.5" y2="62.5" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#CC00FF" />
+                    <stop offset="1" stop-color="white" />
+                </linearGradient>
+            </defs>
+        </svg></button>
+    <button class="text-6xl z-10  left-10 top-[50%] translate-y-[-50%] fixed opacity-80 hover:opacity-100 duration-300" v-if="quizData" @click="lastQuestion"><svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(360)">
+            <path d="M56.25 12.5H50V18.75H43.75V25H37.5V31.25H31.25V43.75H37.5V50H43.75V56.25H50V62.5H56.25V12.5ZM18.75 12.5H25V62.5H18.75V12.5Z" fill="url(#paint0_linear_189_9270)" />
+            <defs>
+                <linearGradient id="paint0_linear_189_9270" x1="37.5" y1="12.5" x2="57.5" y2="92.5" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#CC00FF" />
+                    <stop offset="1" stop-color="white" />
+                </linearGradient>
+            </defs>
+        </svg></button>
 </main>
 </template>
 
@@ -66,7 +68,7 @@ export default {
             correctAnswers: [],
             isAnswerSelected: false,
             multipleCorrectAnswers: false,
-            lastQuestionComplete:0,
+            
         };
     },
     computed: {
@@ -173,32 +175,39 @@ export default {
             return '';
         },
         nextQuestion() {
-          if (this.lastQuestion === this.currentQuiz && this.currentQuiz < this.quizData.length - 1 ){
-
-            
-              this.currentQuiz++;
-              
-              
-          }else{
-              this.currentQuiz++;
-              this.lastQuestion= this.currentQuiz;
-                  this.selectedAnswers = [];
-                  this.correctAnswers = [];
-                  this.isAnswerSelected = false;
-              }
+            // Verificamos si estamos avanzando a una nueva pregunta
+            if (this.currentQuiz < this.quizData.length - 1) {
+                this.currentQuiz++;
+                // Si estamos avanzando a una pregunta que aún no ha sido contestada
+                if (this.currentQuiz > this.lastAnswered) {
+                    // Reiniciamos el estado de la selección
+                    this.selectedAnswers = [];
+                    this.correctAnswers = [];
+                    this.isAnswerSelected = false;
+                }
+                // Actualizamos el índice de la última pregunta contestada
+                this.lastAnswered = Math.max(this.lastAnswered, this.currentQuiz);
+            }
         },
-        lastQuestion() {
-            this.currentQuiz--;
 
+        // Método para retroceder a la pregunta anterior
+        lastQuestion() {
+            // Verificamos si estamos retrocediendo
+            if (this.currentQuiz > 0) {
+                this.currentQuiz--;
+                this.selectedAnswers = []
+                // Aquí no reiniciamos el estado, simplemente mostramos las respuestas seleccionadas previamente
+                this.isAnswerSelected = true; // Desactivamos la posibilidad de cambiar respuestas
+            }
         }
     },
     mounted() {
         this.fetchQuiz();
-    },
+        this.lastAnswered = -1; // Inicializamos con -1 porque ninguna pregunta ha sido contestada al principio
+    }
 };
 </script>
 
-<
 <style>
 .loading {
     color: blue;
