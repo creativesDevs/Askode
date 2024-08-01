@@ -15,7 +15,9 @@
   h1,
   p,
   span,
-  a {
+  a ,
+  li,
+  button{
     font-family: "Bruno Ace";
   }
   h2 {
