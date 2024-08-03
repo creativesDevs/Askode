@@ -172,9 +172,6 @@ export default {
         },
 
         updateMultipleSelections(index) {
-            /*  TODO: check if answer selected exist in selectedAnswers */
-            // Almacenamos los indices que capturamos con los @click de los botones en un array
-            
             this.selectedAnswers.push(index);
         },
 
@@ -201,7 +198,7 @@ export default {
     );
 
     // Verificamos que el número de respuestas seleccionadas sea igual al número de respuestas correctas
-    const allCorrectSelected = this.correctAnswers.length === uniqueSelectedAnswers.size;
+    const allCorrectSelected = this.correctAnswers.length === uniqueSelectedAnswers.length;
 
     // Si todas las respuestas seleccionadas son correctas y todas han sido seleccionadas, bloqueamos más selecciones
     if (allSelectedCorrect && allCorrectSelected) {
