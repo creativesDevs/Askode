@@ -41,7 +41,7 @@
     <div v-if="quizData" class="z-10 w-[70vw]">
         <ul class="grid grid-cols-2 z-10 gap-10">
             <li v-for="(answer, index) in filteredAnswers(currentQuestion.answers)" :key="index" class="flex ">
-                <button class="py-5 px-5 rounded-xl border-2 border-white flex-grow flex items-center duration-300  " :class="isAnswerSelected ? buttonClass(index):'hover:bg-purple-300/20'" 
+                <button class="py-5 px-5 rounded-xl border-2 border-white flex-grow flex items-center duration-300  " :class="selectedAnswers !=[] ? buttonClass(index):'hover:bg-purple-300/20'" 
                 @click="selectAnswer(index)" :disabled="isAnswerSelected">
                     <div class="flex-shrink-0">{{ `${id_Answers[index]} ) ` }}</div>
                     <span class="pl-3 text-start">{{ answer }}</span>
@@ -95,6 +95,7 @@ export default {
             selectedAnswers: [],
             correctAnswers: [],
             isAnswerSelected: false,
+            isLastAnswerSelected:false,
             multipleCorrectAnswers: false,
 
         };
@@ -179,27 +180,35 @@ export default {
 
         updateSingleSelection(index) {
             this.selectedAnswers = [index];
+            this.isLastAnswerSelected= true
             this.isAnswerSelected = true; // Bloquea la selección adicional si se selecciona la respuesta correcta
         },
 
         checkSelectionIsCorrect(selectedAnswer) {
             if (!this.correctAnswers.includes(selectedAnswer)) {
                 this.isAnswerSelected = true; // Bloquea la selección adicional si se selecciona una respuesta incorrecta
+                
             }
         },
 
         checkAllCorrectAnswersSelected() {
-            //Almacenamos y comprobamos si todos los indices almacenados al seleccionar la respuesta en this.selectedAnswers se encuentran en this.correctAnswers. 
-            const allSelectedCorrect = this.selectedAnswers.every(eIndex => this.correctAnswers.includes(`answer_${this.id_Answers[eIndex]}`));
-            //Aquí comprobamos  el array de respuestas seleccionadas y el array de respuestas correctas miden lo mismo. Si esto así, todas las respuestas posibles fueron seleccionas.
-            const allCorrectSelected = this.correctAnswers.length === this.selectedAnswers.length;
+    // Convertimos selectedAnswers a un conjunto para eliminar duplicados
+    const uniqueSelectedAnswers = Array.from(new Set(this.selectedAnswers));
 
-            //Si todas las respuestas seleccionadas son correctas y todas has sido seleccionadas entonces bloqueamos poder más selecciones  
-            if (allSelectedCorrect && allCorrectSelected) {
-                this.isAnswerSelected = true; // Bloquea la selección adicional si se seleccionan todas las respuestas correctas.
-                this.countCorrectAnswers++
-            }
-        },
+    // Verificamos que todas las respuestas seleccionadas estén en correctAnswers
+    const allSelectedCorrect = uniqueSelectedAnswers.every(eIndex => 
+        this.correctAnswers.includes(`answer_${this.id_Answers[eIndex]}`)
+    );
+
+    // Verificamos que el número de respuestas seleccionadas sea igual al número de respuestas correctas
+    const allCorrectSelected = this.correctAnswers.length === uniqueSelectedAnswers.size;
+
+    // Si todas las respuestas seleccionadas son correctas y todas han sido seleccionadas, bloqueamos más selecciones
+    if (allSelectedCorrect && allCorrectSelected) {
+        this.isAnswerSelected = true; // Bloquea la selección adicional si se seleccionan todas las respuestas correctas.
+        this.countCorrectAnswers++;
+    }
+},
         getCorrectAnswers() {
             return Object.keys(this.currentQuestion.correct_answers)
                 .filter(key => this.currentQuestion.correct_answers[key] === 'true')
@@ -217,11 +226,13 @@ export default {
             if (this.currentQuiz < this.quizData.length - 1) {
                 this.currentQuiz++;
                 // Si estamos avanzando a una pregunta que aún no ha sido contestada
-                if (this.currentQuiz > this.lastAnswered) {
+                if (this.currentQuiz >= this.lastAnswered) {
                     // Reiniciamos el estado de la selección
-                    this.selectedAnswers = [];
-                    this.correctAnswers = [];
-                    this.isAnswerSelected = false;
+                    
+                        this.selectedAnswers = [];
+                        this.correctAnswers = [];
+                        this.isAnswerSelected = false;
+                    
                 }
                 
                 // Actualizamos el índice de la última pregunta contestada
