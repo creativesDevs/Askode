@@ -4,7 +4,11 @@
     <div class="absolute inset-0 bg-combined-gradient"></div>
 
     <div class="absolute top-[-50%] left-[25%] bg-gradient-radial-2 w-[50vw] h-[50vw] rounded-full blur-[350px]"></div>
-<!-- container Loading and Error message -->
+    <modal v-if="isModalVisible" @resetQuiz="reset">
+
+    </modal>
+
+    <!-- container Loading and Error message -->
     <div v-if="loading || errorMessage" class="flex h-[85%]  justify-center items-center">
         <div v-show="loading" class="text-8xl loading02">
             <span>L</span>
@@ -21,7 +25,7 @@
     <!-- Game -->
     <div v-if="quizData" class="w-[80vw] min-h-[300px] bg-black/70 p-10 z-10 rounded-lg flex flex-col justify-center relative ">
         <!-- Progress Bar -->
-        <div class="w-full max-w-[80vw] h-10 border-t-2 border-[#e08eeb76] rounded-t-lg absolute top-0 left-0 z-50 ">
+        <div class="w-full max-w-[80vw] h-10 border-t-2 border-[#e08eeb76] rounded-t-lg absolute top-0 left-0 z-40 ">
             <div class="bg-[#68ff1dbe] h-full rounded-t-lg transition-all duration-300" :style="{ width: progressBarWidth }"></div>
             <span class="absolute inset-0 flex items-center justify-center text-white">
                 Correct answers: {{ countCorrectAnswers }} of {{ quizData.length }}
@@ -32,17 +36,16 @@
         <span class="absolute bottom-2 right-[40%] text-[#1ffffb] animate-pulse" v-show="multipleCorrectAnswers">
             Select all the correct answers
         </span>
-        <button v-if="finalQuestion && isAnswerSelected" 
-        @click="reset"
-        class="absolute bottom-5 right-5 border-2 text-lime-400 border-lime-400 px-5 py-3 rounded-lg hover:border-[#cc00ff] hover:text-white duration-300 transition-colors">Reset Quiz</button>
+        <button v-if="finalQuestion && isAnswerSelected" @click="openModal" class="absolute bottom-5 right-5 border-2 text-lime-400 border-lime-400 px-5 py-3 rounded-lg hover:border-[#cc00ff] hover:text-white duration-300 transition-colors">
+            Finish the game
+        </button>
         <span v-else class="absolute bottom-5 right-5">Question {{ currentQuiz +1 }}</span>
-      </div>
+    </div>
     <!-- answers -->
     <div v-if="quizData" class="z-10 w-[70vw]">
         <ul class="grid grid-cols-2 z-10 gap-10">
             <li v-for="(answer, index) in filteredAnswers(currentQuestion.answers)" :key="index" class="flex ">
-                <button class="py-5 px-5 rounded-xl border-2 border-white flex-grow flex items-center duration-300  " :class="selectedAnswers !=[] ? buttonClass(index):'hover:bg-purple-300/20'" 
-                @click="selectAnswer(index)" :disabled="isAnswerSelected">
+                <button class="py-5 px-5 rounded-xl border-2 border-white flex-grow flex items-center duration-300  " :class="selectedAnswers !=[] ? buttonClass(index):'hover:bg-purple-300/20'" @click="selectAnswer(index)" :disabled="isAnswerSelected">
                     <div class="flex-shrink-0">{{ `${id_Answers[index]} ) ` }}</div>
                     <span class="pl-3 text-start">{{ answer }}</span>
                 </button>
@@ -79,9 +82,13 @@
 
 <script>
 import getQuiz from '../api/apiQuiz.js';
+import Modal from '../components/Modal.vue'
 
 export default {
     name: 'Quiz',
+    components: {
+        modal: Modal
+    },
     data() {
         return {
             id_Answers: ["a", "b", "c", "d", "e", "f"],
@@ -95,8 +102,9 @@ export default {
             selectedAnswers: [],
             correctAnswers: [],
             isAnswerSelected: false,
-            isLastAnswerSelected:false,
+            isLastAnswerSelected: false,
             multipleCorrectAnswers: false,
+            isModalVisible: false,
 
         };
     },
@@ -174,41 +182,41 @@ export default {
         updateMultipleSelections(index) {
             /*  TODO: check if answer selected exist in selectedAnswers */
             // Almacenamos los indices que capturamos con los @click de los botones en un array
-            
+
             this.selectedAnswers.push(index);
         },
 
         updateSingleSelection(index) {
             this.selectedAnswers = [index];
-            this.isLastAnswerSelected= true
+            this.isLastAnswerSelected = true
             this.isAnswerSelected = true; // Bloquea la selección adicional si se selecciona la respuesta correcta
         },
 
         checkSelectionIsCorrect(selectedAnswer) {
             if (!this.correctAnswers.includes(selectedAnswer)) {
                 this.isAnswerSelected = true; // Bloquea la selección adicional si se selecciona una respuesta incorrecta
-                
+
             }
         },
 
         checkAllCorrectAnswersSelected() {
-    // Convertimos selectedAnswers a un conjunto para eliminar duplicados
-    const uniqueSelectedAnswers = Array.from(new Set(this.selectedAnswers));
+            // Convertimos selectedAnswers a un conjunto para eliminar duplicados
+            const uniqueSelectedAnswers = Array.from(new Set(this.selectedAnswers));
 
-    // Verificamos que todas las respuestas seleccionadas estén en correctAnswers
-    const allSelectedCorrect = uniqueSelectedAnswers.every(eIndex => 
-        this.correctAnswers.includes(`answer_${this.id_Answers[eIndex]}`)
-    );
+            // Verificamos que todas las respuestas seleccionadas estén en correctAnswers
+            const allSelectedCorrect = uniqueSelectedAnswers.every(eIndex =>
+                this.correctAnswers.includes(`answer_${this.id_Answers[eIndex]}`)
+            );
 
-    // Verificamos que el número de respuestas seleccionadas sea igual al número de respuestas correctas
-    const allCorrectSelected = this.correctAnswers.length === uniqueSelectedAnswers.size;
+            // Verificamos que el número de respuestas seleccionadas sea igual al número de respuestas correctas
+            const allCorrectSelected = this.correctAnswers.length === uniqueSelectedAnswers.size;
 
-    // Si todas las respuestas seleccionadas son correctas y todas han sido seleccionadas, bloqueamos más selecciones
-    if (allSelectedCorrect && allCorrectSelected) {
-        this.isAnswerSelected = true; // Bloquea la selección adicional si se seleccionan todas las respuestas correctas.
-        this.countCorrectAnswers++;
-    }
-},
+            // Si todas las respuestas seleccionadas son correctas y todas han sido seleccionadas, bloqueamos más selecciones
+            if (allSelectedCorrect && allCorrectSelected) {
+                this.isAnswerSelected = true; // Bloquea la selección adicional si se seleccionan todas las respuestas correctas.
+                this.countCorrectAnswers++;
+            }
+        },
         getCorrectAnswers() {
             return Object.keys(this.currentQuestion.correct_answers)
                 .filter(key => this.currentQuestion.correct_answers[key] === 'true')
@@ -228,13 +236,13 @@ export default {
                 // Si estamos avanzando a una pregunta que aún no ha sido contestada
                 if (this.currentQuiz >= this.lastAnswered) {
                     // Reiniciamos el estado de la selección
-                    
-                        this.selectedAnswers = [];
-                        this.correctAnswers = [];
-                        this.isAnswerSelected = false;
-                    
+
+                    this.selectedAnswers = [];
+                    this.correctAnswers = [];
+                    this.isAnswerSelected = false;
+
                 }
-                
+
                 // Actualizamos el índice de la última pregunta contestada
                 this.lastAnswered = Math.max(this.lastAnswered, this.currentQuiz);
             }
@@ -249,24 +257,28 @@ export default {
                 // Aquí no reiniciamos el estado, simplemente mostramos las respuestas seleccionadas previamente
                 this.isAnswerSelected = true; // Desactivamos la posibilidad de cambiar respuestas
             }
-        }
-        ,
-        reset(){
-          this.currentQuiz=0;
-          this.selectedAnswers = [];
-          this.correctAnswers = [];
-          this.countCorrectAnswers=0;
-          this.lastAnswered = -1;
-          this.isAnswerSelected = false;
-          this.errorMessage= null;
-          this.loading=false;
-          this.multipleCorrectAnswers= false;
+        },
+        reset() {
+            this.currentQuiz = 0;
+            this.selectedAnswers = [];
+            this.correctAnswers = [];
+            this.countCorrectAnswers = 0;
+            this.lastAnswered = -1;
+            this.isAnswerSelected = false;
+            this.errorMessage = null;
+            this.loading = false;
+            this.multipleCorrectAnswers = false;
+            this.isModalVisible = false;
+        },
+        openModal() {
+            this.isModalVisible = true;
         },
     },
     mounted() {
         this.fetchQuiz();
         this.lastAnswered = -1; // Inicializamos con -1 porque ninguna pregunta ha sido contestada al principio
-    }
+    },
+
 };
 </script>
 
