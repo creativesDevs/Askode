@@ -9,16 +9,9 @@
     </modal>
 
     <!-- container Loading and Error message -->
-    <div v-if="loading || errorMessage" class="flex h-[85%]  justify-center items-center">
-        <div v-show="loading" class="text-8xl loading02">
-            <span>L</span>
-            <span>O</span>
-            <span>A</span>
-            <span>D</span>
-            <span>I</span>
-            <span>N</span>
-            <span>G</span>
-        </div>
+    <div v-if="quizStore.loading || errorMessage" class="flex h-[85%]  justify-center items-center">
+        <loading :isLoading="loading" />
+
         <span class="text-red-500 text-2xl">{{ errorMessage }}</span>
     </div>
 
@@ -82,12 +75,33 @@
 
 <script>
 import getQuiz from '../api/apiQuiz.js';
-import Modal from '../components/Modal.vue'
+import Modal from '../components/Modal.vue';
+import Loading from '../components/Loading.vue';
+import { useQuizStore } from '../store/quizStore.js';
 
 export default {
     name: 'Quiz',
     components: {
-        modal: Modal
+        modal: Modal,
+        loading: Loading,
+    },
+    setup() {
+        const quizStore = useQuizStore();
+        quizStore.fetchQuiz({
+            limit: this.limit,
+            category: this.category,
+        });
+
+        return {
+            quizStore,
+            quizData: quizStore.quizData,
+            currentQuestion: quizStore.currentQuestion,
+            progressBarWidth: quizStore.progressBarWidth,
+            countCorrectAnswers: quizStore.countCorrectAnswers,
+            selectAnswer: quizStore.selectAnswer,
+            nextQuestion: quizStore.nextQuestion,
+            previousQuestion: quizStore.previousQuestion,
+        };
     },
     data() {
         return {
@@ -96,7 +110,6 @@ export default {
             quizData: null,
             currentQuiz: 0,
             errorMessage: null,
-            loading: false,
             limit: 10,
             category: 'Code',
             selectedAnswers: [],
@@ -105,7 +118,6 @@ export default {
             isLastAnswerSelected: false,
             multipleCorrectAnswers: false,
             isModalVisible: false,
-
         };
     },
     computed: {
@@ -115,87 +127,77 @@ export default {
         finalQuestion() {
             return this.quizData ? this.currentQuiz === this.quizData.length - 1 : false;
         },
-
         multipleCorrectAnswers() {
-            return this.quizData ? this.quizData[this.currentQuiz].multiple_correct_answers === 'true' : false
+            return this.quizData ? this.quizData[this.currentQuiz].multiple_correct_answers === 'true' : false;
         },
         progressBarWidth() {
             const totalQuestions = this.quizData.length;
             const progressPercentage = totalQuestions > 0 ? (this.countCorrectAnswers / totalQuestions) * 100 : 0;
             return `${progressPercentage}%`;
-        }
+        },
     },
     methods: {
-
-        //Obtenemos los datos del Quiz
+        // Obtenemos los datos del Quiz
         async fetchQuiz() {
             this.loading = true;
             this.errorMessage = null;
             try {
                 const params = {
                     limit: this.limit,
-                    category: this.category
+                    category: this.category,
                 };
                 this.quizData = await getQuiz(params);
                 console.log("quizData", this.quizData);
             } catch (error) {
-                this.errorMessage = error.response ?
-                    `Error: ${error.response.status} - ${error.response.data}` :
-                    'Error: No response received from the server';
+                this.errorMessage = error.response
+                    ? `Error: ${error.response.status} - ${error.response.data}`
+                    : 'Error: No response received from the server';
                 console.error('Error fetching quiz data:', error);
             } finally {
                 this.loading = false;
             }
         },
-
         // Filtramos las preguntas para obtener solo las que no son null.
         filteredAnswers(answers) {
             return Object.values(answers).filter(answer => answer);
         },
-
         // Método de Selección 
         selectAnswer(index) {
-            if (this.isAnswerSelected) return; // Previene la selección si ya se selecciono una respuesta.
+            if (this.isAnswerSelected) return; // Previene la selección si ya se seleccionó una respuesta.
 
-            //Comprobamos si hay multiples respuestas correctas.
+            // Comprobamos si hay múltiples respuestas correctas.
             const multipleCorrect = this.currentQuestion.multiple_correct_answers === 'true';
 
-            //Capturamos la respuesta selecciona mediante evento @Click y el indice.
+            // Capturamos la respuesta seleccionada mediante evento @Click y el índice.
             const selectedAnswer = `answer_${this.id_Answers[index]}`;
 
-            //Capturamos mediante le método getCorrectAnswers() las respuestas correctas
+            // Capturamos mediante el método getCorrectAnswers() las respuestas correctas
             this.correctAnswers = this.getCorrectAnswers();
 
             if (multipleCorrect) {
-                // Si hay multiples respuestas llamamos a updateMultipleSelections() que almacena en un array las multiples selecciones
+                // Si hay múltiples respuestas llamamos a updateMultipleSelections() que almacena en un array las múltiples selecciones
                 this.updateMultipleSelections(index);
             } else {
-
-                // Si no hay multiples respuestas llamamos a updateSingleSelection()
+                // Si no hay múltiples respuestas llamamos a updateSingleSelection()
                 this.updateSingleSelection(index);
             }
 
             this.checkSelectionIsCorrect(selectedAnswer);
             this.checkAllCorrectAnswersSelected();
         },
-
         updateMultipleSelections(index) {
             this.selectedAnswers.push(index);
         },
-
         updateSingleSelection(index) {
             this.selectedAnswers = [index];
-            this.isLastAnswerSelected = true
+            this.isLastAnswerSelected = true;
             this.isAnswerSelected = true; // Bloquea la selección adicional si se selecciona la respuesta correcta
         },
-
         checkSelectionIsCorrect(selectedAnswer) {
             if (!this.correctAnswers.includes(selectedAnswer)) {
                 this.isAnswerSelected = true; // Bloquea la selección adicional si se selecciona una respuesta incorrecta
-
             }
         },
-
         checkAllCorrectAnswersSelected() {
             // Convertimos selectedAnswers a un conjunto para eliminar duplicados
             const uniqueSelectedAnswers = Array.from(new Set(this.selectedAnswers));
@@ -205,8 +207,8 @@ export default {
                 this.correctAnswers.includes(`answer_${this.id_Answers[eIndex]}`)
             );
 
-    // Verificamos que el número de respuestas seleccionadas sea igual al número de respuestas correctas
-    const allCorrectSelected = this.correctAnswers.length === uniqueSelectedAnswers.length;
+            // Verificamos que el número de respuestas seleccionadas sea igual al número de respuestas correctas
+            const allCorrectSelected = this.correctAnswers.length === uniqueSelectedAnswers.length;
 
             // Si todas las respuestas seleccionadas son correctas y todas han sido seleccionadas, bloqueamos más selecciones
             if (allSelectedCorrect && allCorrectSelected) {
@@ -233,24 +235,21 @@ export default {
                 // Si estamos avanzando a una pregunta que aún no ha sido contestada
                 if (this.currentQuiz >= this.lastAnswered) {
                     // Reiniciamos el estado de la selección
-
                     this.selectedAnswers = [];
                     this.correctAnswers = [];
                     this.isAnswerSelected = false;
-
                 }
 
                 // Actualizamos el índice de la última pregunta contestada
                 this.lastAnswered = Math.max(this.lastAnswered, this.currentQuiz);
             }
         },
-
         // Método para retroceder a la pregunta anterior
         previousQuestion() {
             // Verificamos si estamos retrocediendo
             if (this.currentQuiz > 0) {
                 this.currentQuiz--;
-                this.selectedAnswers = []
+                this.selectedAnswers = [];
                 // Aquí no reiniciamos el estado, simplemente mostramos las respuestas seleccionadas previamente
                 this.isAnswerSelected = true; // Desactivamos la posibilidad de cambiar respuestas
             }
@@ -275,9 +274,9 @@ export default {
         this.fetchQuiz();
         this.lastAnswered = -1; // Inicializamos con -1 porque ninguna pregunta ha sido contestada al principio
     },
-
 };
 </script>
+
 
 <style>
 </style>
