@@ -101,7 +101,7 @@ export default {
         };
     },
     computed: {
-        currentQuestion() {
+        currentQuestion() { 
             return this.quizData ? this.quizData[this.currentQuiz] : {};
         },
         finalQuestion() {
