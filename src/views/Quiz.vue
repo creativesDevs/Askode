@@ -59,7 +59,8 @@
         <!-- Navigation Buttons -->
         <button
             class="text-6xl z-10 fixed right-10 top-[50%] translate-y-[-50%] opacity-80 hover:opacity-100 duration-300"
-            v-if="isAnswerSelected && quizData" @click="nextQuestion" :disabled="currentQuiz >= quizData.length - 1">
+            v-if="isAnswerSelected && !finalQuestion" @click="nextQuestion"
+            :disabled="currentQuiz >= quizData.length - 1">
             <svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg"
                 transform="rotate(180)">
                 <path
@@ -195,8 +196,8 @@ export default {
 
         updateSingleSelection(index) {
             this.selectedAnswers = [ index ];
-            this.isLastAnswerSelected = true
             this.isAnswerSelected = true; // Bloquea la selección adicional si se selecciona la respuesta correcta
+
         },
 
         checkSelectionIsNotCorrect(selectedAnswer) {
@@ -241,13 +242,17 @@ export default {
             if (this.currentQuiz < this.quizData.length - 1) {
                 this.currentQuiz++;
                 // Si estamos avanzando a una pregunta que aún no ha sido contestada
-                if (this.currentQuiz >= this.lastAnswered) {
+                if (this.currentQuiz >= this.lastAnswered && !this.isLastAnswerSelected) {
                     // Reiniciamos el estado de la selección
 
                     this.selectedAnswers = [];
                     this.correctAnswers = [];
                     this.isAnswerSelected = false;
 
+                } else {
+                    this.selectedAnswers = [];
+                    this.correctAnswers = [];
+                    this.isAnswerSelected = true;
                 }
 
                 // Actualizamos el índice de la última pregunta contestada
@@ -258,9 +263,10 @@ export default {
         // Método para retroceder a la pregunta anterior
         previousQuestion() {
             // Verificamos si estamos retrocediendo
+
             if (this.currentQuiz > 0) {
                 this.currentQuiz--;
-                this.selectedAnswers = []
+                this.selectedAnswers = [];
                 // Aquí no reiniciamos el estado, simplemente mostramos las respuestas seleccionadas previamente
                 this.isAnswerSelected = true; // Desactivamos la posibilidad de cambiar respuestas
             }
