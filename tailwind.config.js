@@ -13,6 +13,10 @@ export default {
         'combined-gradient': 'linear-gradient(rgba(4, 8, 13, 0.2) 0%, rgba(67, 15, 88, 0.3) 30%, rgba(0, 0, 0, 0.25) 100%)',
         
       },
+      colors: {
+        'custom-purple': '#CC00FF',
+        'icon-cards': '#1E1E1E',
+      },
     },
   },
   plugins: [],
