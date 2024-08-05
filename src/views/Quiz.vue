@@ -5,6 +5,10 @@
 
         <div class="absolute top-[-50%] left-[25%] bg-gradient-radial-2 w-[50vw] h-[50vw] rounded-full blur-[350px]">
         </div>
+        <modal v-if="isModalVisible" @resetQuiz="reset">
+
+        </modal>
+
         <!-- container Loading and Error message -->
         <div v-if="loading || errorMessage" class="flex h-[85%]  justify-center items-center">
             <div v-show="loading" class="text-8xl loading02">
@@ -16,7 +20,6 @@
                 <span>N</span>
                 <span>G</span>
             </div>
-            <span class="text-red-500 text-2xl">{{ errorMessage }}</span>
         </div>
 
         <!-- Game -->
@@ -36,9 +39,10 @@
             <span class="absolute bottom-2 right-[40%] text-[#1ffffb] animate-pulse" v-show="multipleCorrectAnswers">
                 Select all the correct answers
             </span>
-            <button v-if="finalQuestion && isAnswerSelected" @click="reset"
-                class="absolute bottom-5 right-5 border-2 text-lime-400 border-lime-400 px-5 py-3 rounded-lg hover:border-[#cc00ff] hover:text-white duration-300 transition-colors">Reset
-                Quiz</button>
+            <button v-if="finalQuestion && isAnswerSelected" @click="openModal"
+                class="absolute bottom-5 right-5 border-2 text-lime-400 border-lime-400 px-5 py-3 rounded-lg hover:border-[#cc00ff] hover:text-white duration-300 transition-colors">
+                Finish the game
+            </button>
             <span v-else class="absolute bottom-5 right-5">Question {{ currentQuiz + 1 }}</span>
         </div>
         <!-- answers -->
@@ -46,8 +50,8 @@
             <ul class="grid grid-cols-2 z-10 gap-10">
                 <li v-for="(answer, index) in filteredAnswers(currentQuestion.answers)" :key="index" class="flex ">
                     <button
-                        class="py-5 px-5 rounded-xl border-2 border-white flex-grow flex items-center duration-300 transition-colors "
-                        :class="selectedAnswers.length === 0 && !isAnswerSelected ? 'hover:bg-purple-300/30' : buttonClass(index)"
+                        class="py-5 px-5 rounded-xl border-2 border-white flex-grow flex items-center duration-300  "
+                        :class="selectedAnswers != [] ? buttonClass(index) : 'hover:bg-purple-300/20'"
                         @click="selectAnswer(index)" :disabled="isAnswerSelected">
                         <div class="flex-shrink-0">{{ `${id_Answers[index]} ) ` }}</div>
                         <span class="pl-3 text-start">{{ answer }}</span>
@@ -98,9 +102,13 @@
 
 <script>
 import getQuiz from '../api/apiQuiz.js';
+import Modal from '../components/Modal.vue'
 
 export default {
     name: 'Quiz',
+    components: {
+        modal: Modal
+    },
     data() {
         return {
             id_Answers: [ "a", "b", "c", "d", "e", "f" ],
@@ -116,6 +124,7 @@ export default {
             isAnswerSelected: false,
             isLastAnswerSelected: false,
             multipleCorrectAnswers: false,
+            isModalVisible: false,
 
         };
     },
@@ -249,10 +258,6 @@ export default {
                     this.correctAnswers = [];
                     this.isAnswerSelected = false;
 
-                } else {
-                    this.selectedAnswers = [];
-                    this.correctAnswers = [];
-                    this.isAnswerSelected = true;
                 }
 
                 // Actualizamos el índice de la última pregunta contestada
@@ -282,12 +287,17 @@ export default {
             this.errorMessage = null;
             this.loading = false;
             this.multipleCorrectAnswers = false;
+            this.isModalVisible = false;
+        },
+        openModal() {
+            this.isModalVisible = true;
         },
     },
     mounted() {
         this.fetchQuiz();
         this.lastAnswered = -1; // Inicializamos con -1 porque ninguna pregunta ha sido contestada al principio
-    }
+    },
+
 };
 </script>
 
