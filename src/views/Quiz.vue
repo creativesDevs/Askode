@@ -96,15 +96,18 @@
 </template>
 
 <script>
-import getQuiz from '../api/apiQuiz.js';
+import { useQuizStore } from '../stores/useQuizStore';
+
+
 
 export default {
+
     name: 'Quiz',
+
     data() {
         return {
             id_Answers: [ "a", "b", "c", "d", "e", "f" ],
             countCorrectAnswers: 0,
-            quizData: null,
             currentQuiz: 0,
             errorMessage: null,
             loading: false,
@@ -118,7 +121,16 @@ export default {
 
         };
     },
+    setup() {
+        const quizStore = useQuizStore();
+        return { quizStore };
+    },
     computed: {
+        quizData() {
+            console.log('logQuizData', this.quizStore.quizData);
+            return this.quizStore.quizData
+        }
+        ,
         currentQuestion() {
             return this.quizData ? this.quizData[ this.currentQuiz ] : {};
         },
@@ -146,8 +158,9 @@ export default {
                     limit: this.limit,
                     category: this.category
                 };
-                this.quizData = await getQuiz(params);
-                console.log("quizData", this.quizData);
+                await this.quizStore.fetchData(params);
+                console.log('logfechQuiz', this.quizStore.quizData);
+
             } catch (error) {
                 this.errorMessage = error.response ?
                     `Error: ${error.response.status} - ${error.response.data}` :
