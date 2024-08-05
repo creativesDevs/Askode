@@ -129,8 +129,7 @@ export default {
         quizData() {
             console.log('logQuizData', this.quizStore.quizData);
             return this.quizStore.quizData
-        }
-        ,
+        },
         currentQuestion() {
             return this.quizData ? this.quizData[ this.currentQuiz ] : {};
         },
@@ -291,7 +290,7 @@ export default {
             this.multipleCorrectAnswers = false;
         },
     },
-    mounted() {
+    created() {
         this.fetchQuiz();
         this.lastAnswered = -1; // Inicializamos con -1 porque ninguna pregunta ha sido contestada al principio
     }
