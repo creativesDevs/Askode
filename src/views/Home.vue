@@ -1,9 +1,20 @@
 <template>
-  <section class="flex justify-center items-center relative h-screen border border-green-300">
-    <div class="absolute inset-0 bg-combined-gradient"></div>
-    <div class="absolute top-[-50%] left-[25%] bg-gradient-radial-2 w-[50vw] h-[50vw] rounded-full blur-[250px]"></div>
+<div class="flex flex-col overflow-hidden relative">
 
-    <div class="border h-[65vh] w-[80vw] flex flex-col items-center justify-center gap-16 z-10">
+  <div class="absolute inset-0 bg-combined-gradient z-10"></div>
+  <div class="absolute top-[-10%] left-[25%] bg-gradient-radial-2 w-[50vw] h-[40vw] rounded-full blur-[300px] z-20"></div>
+
+  <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-radial-2 w-[80vw] h-[40vh] rounded-full blur-[300px] z-20"></div>
+
+  <div class="absolute -bottom-96 -left-52 bg-gradient-radial-2 w-[40vw] h-[40vh] rounded-full blur-[250px] z-20">
+    </div>
+    <div class="absolute bottom-24 -right-24 bg-gradient-radial-2 w-[40vw] h-[40vh] rounded-full blur-[250px] z-20">
+    </div>
+  <Navbar/>
+
+  <section class="flex justify-center items-center h-screen z-30">
+
+    <div class="h-[65vh] w-[80vw] flex flex-col items-center justify-center gap-16">
       <h1 class="flex flex-col uppercase text-9xl text-center gap-8">
         <span>Quiz for</span>
         <span>coders</span>
@@ -14,23 +25,22 @@
         feedback. Enhance your coding abilities today!
       </p>
 
-      <button class="uppercase w-36 h-14 text-xl rounded-lg bg-custom-purple">Play</button>
+      <button class="uppercase w-36 h-14 text-xl rounded-lg bg-custom-purple" @click="goToCategories">Play</button>
     </div>
   </section>
 
   <MarqueeSection/>
 
-  <section class="flex flex-col items-center border w-full h-auto gap-[130px] mt-[205px]">
-    <div class="absolute bg-gradient-radial-2 w-[80vw] h-[50vh] rounded-full blur-[250px] -z-10"></div>
+  <section class="flex flex-col items-center w-full h-auto gap-[130px] mt-[205px] z-30">
     <h2 class="uppercase text-7xl">More than a game</h2>
 
-    <div class="grid grid-cols-2 w-[80%]">
-      <div class="w-[700px] h-[450px] border rounded-lg overflow-hidden">
+    <div class="flex justify-between w-[80%]">
+      <div class="w-[700px] h-[450px] rounded-lg overflow-hidden">
         <img class="object-cover w-full h-full"
           src="../assets/img/isiahzac_A_real_girl_playing_quiz_games_on_a_computer._Nice_bac_701b83e8-a654-4775-b63b-c55075940769.png"
           alt="A girl playing on the computer">
       </div>
-      <div class="w-[700px] h-[450px] border rounded-lg overflow-hidden">
+      <div class="w-[700px] h-[450px] rounded-lg overflow-hidden">
         <img class="object-cover w-full h-full"
           src="../assets/img/isiahzac_A_real_guy_playing_quiz_games_on_a_computer._Nice_back_3f605f42-e166-4220-abf4-08ad64913844.png"
           alt="A guy playing on the computer">
@@ -38,44 +48,51 @@
     </div>
   </section>
 
-  <section class="flex flex-col items-center border w-full h-auto gap-[130px] mt-[205px]">
+  <section class="flex flex-col items-center w-full h-auto gap-[130px] mt-[205px] z-30">
     <h2 class="uppercase text-7xl">Our mission</h2>
 
     <div class="flex justify-between w-[80%] mx-auto">
-  <div class="flex flex-col p-8 w-[450px] h-[250px] rounded-lg bg-black bg-opacity-40">
-    <h3 class="text-2xl uppercase mb-8">Targeted Skill Growth</h3>
-    <p class="leading-6 text-xl">Sharpen your coding skills and deepen your tech knowledge with targeted quizzes designed for growth.</p>
-  </div>
-  <div class="flex flex-col p-8 w-[450px] h-[250px] rounded-lg bg-black bg-opacity-40">
-    <h3 class="text-2xl uppercase mb-8">Engaging Challenges</h3>
-    <p class="leading-6 text-xl">Our quizzes challenge and motivate you, making learning an enjoyable and engaging experience.</p>
-  </div>
-  <div class="flex flex-col p-8 w-[450px] h-[250px] rounded-lg bg-black bg-opacity-40">
-    <h3 class="text-2xl uppercase mb-8">Customizable Learning</h3>
-    <p class="leading-6 text-xl">Tailor your learning with adjustable difficulty levels, from beginner to advanced. Our app adapts to your needs.</p>
-  </div>
-</div>
-
+      <div class="flex flex-col p-8 w-[450px] h-[250px] rounded-lg bg-custom-purple/10 bg-opacity-40">
+        <h3 class="text-xl uppercase mb-8">Targeted Skill Growth</h3>
+        <p class="leading-6 text-xl">Sharpen your coding skills and deepen your tech knowledge with targeted quizzes
+          designed for growth.</p>
+      </div>
+      <div class="flex flex-col p-8 w-[450px] h-[250px] rounded-lg bg-custom-purple/10 bg-opacity-40">
+        <h3 class="text-xl uppercase mb-8">Engaging Challenges</h3>
+        <p class="leading-6 text-xl">Our quizzes challenge and motivate you, making learning an enjoyable and engaging
+          experience.</p>
+      </div>
+      <div class="flex flex-col p-8 w-[450px] h-[250px] rounded-lg bg-custom-purple/10 bg-opacity-40">
+        <h3 class="text-xl uppercase mb-8">Customizable Learning</h3>
+        <p class="leading-6 text-xl">Tailor your learning with adjustable difficulty levels, from beginner to advanced.
+          Our app adapts to your needs.</p>
+      </div>
+    </div>
   </section>
 
-  <section class="flex flex-col items-center border w-full h-auto gap-[130px] mt-[205px] relative">
-    <div class="absolute -bottom-52 -left-52 bg-gradient-radial-2 w-[40vw] h-[40vh] rounded-full blur-[250px] -z-10"></div>
-    <div class="absolute -bottom-24 -right-24 bg-gradient-radial-2 w-[40vw] h-[40vh] rounded-full blur-[250px] -z-10"></div>
+  <section class="flex flex-col items-center w-full h-auto gap-[130px] mt-[205px] z-30">
     <h2 class="uppercase text-7xl">Start playing</h2>
 
-    <p class="text-center w-[1000px] border text-xl">Dive into our engaging programming quizzes and start enhancing your skills today. Challenge yourself and see how much you can achieve!</p>
+    <p class="text-center w-[1000px] text-xl">Dive into our engaging programming quizzes and start enhancing your
+      skills today. Challenge yourself and see how much you can achieve!</p>
 
-    <button class="uppercase w-36 h-14 text-xl rounded-lg bg-custom-purple" @onClick="goToCategories">Play now</button>
+    <button class="uppercase w-52 h-14 text-xl rounded-lg bg-custom-purple" @click="goToCategories">Play now</button>
   </section>
 
+  <Footer/>
+</div>
 </template>
 
 <script>
 import MarqueeSection from '../components/Marquee.vue';
+import Footer from '../components/Footer.vue';
+import Navbar from '../components/Navbar.vue';
 export default {
   name: 'Home',
   components: {
     MarqueeSection,
+    Footer,
+    Navbar,
   },
   methods: {
     goToCategories() {
