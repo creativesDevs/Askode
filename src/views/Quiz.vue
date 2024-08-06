@@ -35,7 +35,7 @@
             <!-- Answers component -->
             <Answers :answersSelected="isAnswerSelected" :filteredAnswers="filteredAnswers(currentQuestion.answers)"
                 :idAnswers="id_Answers"
-                :condition="(selectedAnswers.length <= correctAnswers && currentQuiz >= lastAnswered)"
+                :condition="(selectedAnswers.length <= correctAnswers && currentQuiz >= lastAnswered && isAnswerSelected)"
                 @ButtonClass="buttonClass" @SelectAnswers="selectAnswer" />
         </section>
 
@@ -86,6 +86,8 @@ import Loader from '../components/viewQuizComponents/Loader.vue';
 import Questions from '../components/viewQuizComponents/Questions.vue';
 import ProgressBar from '../components/viewQuizComponents/ProgressBar.vue';
 import Answers from '../components/viewQuizComponents/Answers.vue';
+import correctSound from '../assets/sounds/correct.mp3';
+import incorrectSound from '../assets/sounds/incorrect.mp3';
 
 export default {
     name: 'Quiz',
@@ -157,7 +159,15 @@ export default {
         filteredAnswers(answers) {
             return Object.values(answers).filter(answer => answer);
         },
+        playCorrectSound() {
+            const audio = new Audio(correctSound);
+            audio.play();
+        },
 
+        playIncorrectSound() {
+            const audio = new Audio(incorrectSound);
+            audio.play();
+        },
         // Método de Selección 
         selectAnswer(index) {
             if (this.isAnswerSelected) return; // Previene la selección si ya se selecciono una respuesta.
@@ -179,10 +189,16 @@ export default {
                 // Si no hay multiples respuestas llamamos a updateSingleSelection()
                 this.updateSingleSelection(index);
             }
+            if (this.correctAnswers.includes(selectedAnswer)) {
+                this.playCorrectSound();
+            } else {
+                this.playIncorrectSound();
+            }
 
             this.checkSelectionIsNotCorrect(selectedAnswer);
             this.checkAllCorrectAnswersSelected();
         },
+
 
         updateMultipleSelections(index) {
             this.selectedAnswers.push(index);
@@ -236,15 +252,12 @@ export default {
             if (this.currentQuiz < this.quizData.length - 1) {
                 this.currentQuiz++;
                 // Si estamos avanzando a una pregunta que aún no ha sido contestada
-                if (this.currentQuiz >= this.lastAnswered && !this.isLastAnswerSelected) {
+                if (this.currentQuiz >= this.lastAnswered) {
                     // Reiniciamos el estado de la selección
-
                     this.selectedAnswers = [];
                     this.correctAnswers = [];
                     this.isAnswerSelected = false;
-
                 }
-
                 // Actualizamos el índice de la última pregunta contestada
                 this.lastAnswered = Math.max(this.lastAnswered, this.currentQuiz);
             }

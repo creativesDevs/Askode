@@ -15,19 +15,11 @@
   span,
   a,
   li,
-  button{
+  button {
     font-family: "Bruno Ace";
   }
-  
-  button {
-    transition: 0.4s;
-  }
-  button:hover {
-    background: #430F58;
-    transition: 0.4s;
-  }
 
-  h2{
+  h2 {
     font-family: "Press Start 2P";
   }
 }

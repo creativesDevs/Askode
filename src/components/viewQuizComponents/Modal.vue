@@ -11,7 +11,7 @@
 
             <div class="w-[80vw] min-h-[300px] bg-black/70 p-10 z-50 rounded-lg flex flex-col justify-center relative ">
                 <!-- GameOver -->
-                <h3 class="text-5xl text-center py-2 text-gradient">Game Over</h3>
+                <h2 class="text-5xl text-center py-2 text-gradient">Game Over</h2>
             </div>
             <!-- Buttons modal -->
             <div class="z-10 w-[70vw]">
