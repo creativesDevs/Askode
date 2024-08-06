@@ -15,7 +15,7 @@ export default {
       },
       colors: {
         'custom-purple': '#CC00FF',
-        'icon-cards': '#1E1E1E',
+        
       },
     },
   },
