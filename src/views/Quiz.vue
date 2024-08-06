@@ -1,64 +1,43 @@
 <template>
-    <main class="flex flex-col gap-14 pt-20 items-center w-full h-screen  overflow-hidden">
-        <!-- background gradients decorations -->
+    <main class="flex flex-col gap-14 pt-20 items-center w-full h-full  overflow-hidden">
+        <!-- Background gradients decorations -->
         <div class="absolute inset-0 bg-combined-gradient"></div>
-
         <div class="absolute top-[-50%] left-[25%] bg-gradient-radial-2 w-[50vw] h-[50vw] rounded-full blur-[350px]">
         </div>
-        <modal v-if="isModalVisible" @resetQuiz="reset">
-
-        </modal>
-
+        <!-- Comoponent modal -->
+        <Modal v-if="isModalVisible" @resetQuiz="reset" />
         <!-- container Loading and Error message -->
-        <div v-if="loading || errorMessage" class="flex h-[85%]  justify-center items-center">
-            <div v-show="loading" class="text-8xl loading02">
-                <span>L</span>
-                <span>O</span>
-                <span>A</span>
-                <span>D</span>
-                <span>I</span>
-                <span>N</span>
-                <span>G</span>
-            </div>
+        <div v-show="loading || errorMessage" class="flex h-[85%]  justify-center items-center">
+            <!-- Loader component -->
+            <Loader :isLoading="loading" />
+            <!-- Error message -->
+            <h2 class="text-3xl">{{ errorMessage }}</h2>
         </div>
 
         <!-- Game -->
-        <div v-if="quizData"
+        <section v-if="quizData"
             class="w-[80vw] min-h-[300px] bg-black/70 p-10 z-10 rounded-lg flex flex-col justify-center relative ">
-            <!-- Progress Bar -->
-            <div
-                class="w-full max-w-[80vw] h-10 border-t-2 border-[#e08eeb76] rounded-t-lg absolute top-0 left-0 z-50 ">
-                <div class="bg-[#68ff1dbe] h-full rounded-t-lg transition-all duration-300"
-                    :style="{ width: progressBarWidth }"></div>
-                <span class="absolute inset-0 flex items-center justify-center text-white">
-                    Correct answers: {{ countCorrectAnswers }} of {{ quizData.length }}
-                </span>
-            </div>
-            <!-- Questions -->
-            <h3 class="text-2xl text-center py-2 text-gradient">{{ currentQuestion.question }}</h3>
-            <span class="absolute bottom-2 right-[40%] text-[#1ffffb] animate-pulse" v-show="multipleCorrectAnswers">
-                Select all the correct answers
-            </span>
+            <!-- Component Progress Bar -->
+            <ProgressBar :widthBar="progressBarWidth" :count="countCorrectAnswers" :quizDataLength="quizData.length" />
+            <!-- Component Questions -->
+            <Questions v-show="currentQuestion" :CurrentQuestion="currentQuestion"
+                :multipleAnswers="multipleCorrectAnswers" />
+            <!-- Open modal button at last question -->
             <button v-if="finalQuestion && isAnswerSelected" @click="openModal"
                 class="absolute bottom-5 right-5 border-2 text-lime-400 border-lime-400 px-5 py-3 rounded-lg hover:border-[#cc00ff] hover:text-white duration-300 transition-colors">
                 Finish the game
             </button>
+            <!-- Feedback for users on the current question -->
             <span v-else class="absolute bottom-5 right-5">Question {{ currentQuiz + 1 }}</span>
-        </div>
-        <!-- answers -->
-        <div v-if="quizData" class="z-10 w-[70vw]">
-            <ul class="grid grid-cols-2 z-10 gap-10">
-                <li v-for="(answer, index) in filteredAnswers(currentQuestion.answers)" :key="index" class="flex ">
-                    <button
-                        class="py-5 px-5 rounded-xl border-2 border-white flex-grow flex items-center duration-300  "
-                        :class="selectedAnswers != [] ? buttonClass(index) : 'hover:bg-purple-300/20'"
-                        @click="selectAnswer(index)" :disabled="isAnswerSelected">
-                        <div class="flex-shrink-0">{{ `${id_Answers[index]} ) ` }}</div>
-                        <span class="pl-3 text-start">{{ answer }}</span>
-                    </button>
-                </li>
-            </ul>
-        </div>
+        </section>
+        <!-- Answers container-->
+        <section v-if="quizData" class="z-10 w-[70vw]">
+            <!-- Answers component -->
+            <Answers :answersSelected="isAnswerSelected" :filteredAnswers="filteredAnswers(currentQuestion.answers)"
+                :idAnswers="id_Answers"
+                :condition="(selectedAnswers.length <= correctAnswers && currentQuiz >= lastAnswered)"
+                @ButtonClass="buttonClass" @SelectAnswers="selectAnswer" />
+        </section>
 
         <!-- Navigation Buttons -->
         <button
@@ -102,12 +81,20 @@
 
 <script>
 import getQuiz from '../api/apiQuiz.js';
-import Modal from '../components/Modal.vue'
+import Modal from '../components/viewQuizComponents/Modal.vue';
+import Loader from '../components/viewQuizComponents/Loader.vue';
+import Questions from '../components/viewQuizComponents/Questions.vue';
+import ProgressBar from '../components/viewQuizComponents/ProgressBar.vue';
+import Answers from '../components/viewQuizComponents/Answers.vue';
 
 export default {
     name: 'Quiz',
     components: {
-        modal: Modal
+        Modal,
+        Loader,
+        Questions,
+        ProgressBar,
+        Answers
     },
     data() {
         return {
@@ -123,9 +110,8 @@ export default {
             correctAnswers: [],
             isAnswerSelected: false,
             isLastAnswerSelected: false,
-            multipleCorrectAnswers: false,
             isModalVisible: false,
-
+            lastAnswered: -1
         };
     },
     computed: {
@@ -135,7 +121,6 @@ export default {
         finalQuestion() {
             return this.quizData ? this.currentQuiz === this.quizData.length - 1 : false;
         },
-
         multipleCorrectAnswers() {
             return this.quizData ? this.quizData[ this.currentQuiz ].multiple_correct_answers === 'true' : false
         },
@@ -275,8 +260,7 @@ export default {
                 // Aquí no reiniciamos el estado, simplemente mostramos las respuestas seleccionadas previamente
                 this.isAnswerSelected = true; // Desactivamos la posibilidad de cambiar respuestas
             }
-        }
-        ,
+        },
         reset() {
             this.currentQuiz = 0;
             this.selectedAnswers = [];
@@ -286,7 +270,6 @@ export default {
             this.isAnswerSelected = false;
             this.errorMessage = null;
             this.loading = false;
-            this.multipleCorrectAnswers = false;
             this.isModalVisible = false;
         },
         openModal() {
@@ -295,7 +278,7 @@ export default {
     },
     mounted() {
         this.fetchQuiz();
-        this.lastAnswered = -1; // Inicializamos con -1 porque ninguna pregunta ha sido contestada al principio
+
     },
 
 };
