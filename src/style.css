@@ -10,41 +10,27 @@
   }
 
   h1,
+  h3,
   p,
   span,
   a ,
   li,
   button{
+
     font-family: "Bruno Ace";
   }
-  h2 {
-    font-family: "Bruno Ace SC";
+  
+  button {
+    transition: 0.4s;
   }
-  h3{
+  button:hover {
+    background: #430F58;
+    transition: 0.4s;
+  }
+
+  h2{
     font-family: "Press Start 2P";
   }
-  .loading02 {
-    animation: loading02 1.2s infinite alternate;
-  }
-  
-  .loading02 span {
-    animation: loading02 1.2s infinite alternate;
-  }
-  
-  .loading02 span:nth-child(n+2) {
-    animation-delay: calc((var(--n) - 1) * 0.2s);
-  }
-  @keyframes loading02 {
-  0% {
-    filter: blur(0);
-    opacity: 1;
-  }
-  100% {
-    filter: blur(5px);
-    opacity: .2;
-  }
-}
-
 }
 
 @layer utilities {
