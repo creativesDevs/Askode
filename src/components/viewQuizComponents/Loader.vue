@@ -18,7 +18,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 /* HTML: <div class="loader"></div> */
 .loader {
     font-weight: bold;
