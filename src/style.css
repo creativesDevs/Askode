@@ -2,7 +2,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 @layer base {
   body {
     background-color: #08060b;
@@ -23,7 +22,6 @@
     font-family: "Press Start 2P";
   }
 }
-
 @layer utilities {
   .text-gradient {
     background: linear-gradient(
@@ -37,7 +35,6 @@
   .correct {
     @apply border-2 border-green-500 text-white box-border;
   }
-
   .incorrect {
     @apply border-2 border-red-600 text-white box-border;
   }
