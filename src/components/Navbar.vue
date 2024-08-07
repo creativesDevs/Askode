@@ -1,5 +1,5 @@
 <template>
-    <nav class="flex items-center justify-center w-full h-[130px] bg-black/20 absolute top-0 z-40">
+    <nav class="flex items-center justify-center w-full h-[130px] bg-black/30 absolute top-0 z-40">
         <div class="flex justify-between items-center w-[80vw]">
             <div>
                <router-link to="/"><img src="../assets/icons/logo.png" alt="Logo Askode"></router-link>

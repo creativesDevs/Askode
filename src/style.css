@@ -7,6 +7,7 @@
     background-color: #08060b;
     color: white;
   }
+
   h3,
   p,
   span,
@@ -15,8 +16,9 @@
   button {
     font-family: "Bruno Ace";
   }
+
   h1 span,
-  h2 {
+  h2{
     font-family: "Press Start 2P";
   }
 }
