@@ -32,8 +32,8 @@
                 </span>
             </div>
             <!-- Questions -->
-            <h3 class="text-2xl text-center py-2 text-gradient">{{ currentQuestion.question }}</h3>
-            <span class="absolute bottom-2 right-[40%] text-[#1ffffb] animate-pulse" v-show="multipleCorrectAnswers">
+            <h3 class="text-2xl text-center py-2 text-gradient">{{ currentQuestion?.question }}</h3>
+            <span class="absolute bottom-2 right-[40%] text-[#1ffffb] animate-pulse" v-if="multipleCorrectAnswers">
                 Select all the correct answers
             </span>
             <button v-if="finalQuestion && isAnswerSelected" @click="reset"
@@ -97,8 +97,7 @@
 
 <script>
 import { useQuizStore } from '../stores/useQuizStore';
-
-
+import { mapState } from 'pinia'
 
 export default {
 
@@ -109,10 +108,7 @@ export default {
             id_Answers: [ "a", "b", "c", "d", "e", "f" ],
             countCorrectAnswers: 0,
             currentQuiz: 0,
-            errorMessage: null,
-            loading: false,
-            limit: 10,
-            category: 'Code',
+            //errorMessage: null,
             selectedAnswers: [],
             correctAnswers: [],
             isAnswerSelected: false,
@@ -121,15 +117,9 @@ export default {
 
         };
     },
-    setup() {
-        const quizStore = useQuizStore();
-        return { quizStore };
-    },
     computed: {
-        quizData() {
-            console.log('logQuizData', this.quizStore.quizData);
-            return this.quizStore.quizData
-        },
+        ...mapState(useQuizStore, ['quizData', 'loading', 'errorMessage']),
+
         currentQuestion() {
             return this.quizData ? this.quizData[ this.currentQuiz ] : {};
         },
@@ -147,28 +137,6 @@ export default {
         }
     },
     methods: {
-
-        //Obtenemos los datos del Quiz
-        async fetchQuiz() {
-            this.loading = true;
-            this.errorMessage = null;
-            try {
-                const params = {
-                    limit: this.limit,
-                    category: this.category
-                };
-                await this.quizStore.fetchData(params);
-                console.log('logfechQuiz', this.quizStore.quizData);
-
-            } catch (error) {
-                this.errorMessage = error.response ?
-                    `Error: ${error.response.status} - ${error.response.data}` :
-                    'Error: No response received from the server';
-                console.error('Error fetching quiz data:', error);
-            } finally {
-                this.loading = false;
-            }
-        },
 
         // Filtramos las preguntas para obtener solo las que no son null.
         filteredAnswers(answers) {
@@ -286,12 +254,10 @@ export default {
             this.lastAnswered = -1;
             this.isAnswerSelected = false;
             this.errorMessage = null;
-            this.loading = false;
             this.multipleCorrectAnswers = false;
         },
     },
     created() {
-        this.fetchQuiz();
         this.lastAnswered = -1; // Inicializamos con -1 porque ninguna pregunta ha sido contestada al principio
     }
 };
