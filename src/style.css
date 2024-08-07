@@ -10,27 +10,18 @@
   }
 
   h3,
-  h2,
   p,
   span,
   a,
   li,
-  button{
+  button {
     font-family: "Bruno Ace";
   }
-  
-  button {
-    transition: 0.4s;
-  }
-  button:hover {
-    background: #430F58;
-    transition: 0.4s;
-  }
 
-  /* h1 span,
+  h1 span,
   h2{
     font-family: "Press Start 2P";
-  } */
+  }
 }
 
 @layer utilities {

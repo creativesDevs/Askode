@@ -18,7 +18,7 @@
     <div class="h-[65vh] w-[80vw] flex flex-col items-center justify-center gap-16 mt-10 text-center">
       <h1 class="flex flex-col uppercase text-9xl text-center gap-8">
         <span class="text-gradient">Quiz for</span>
-        <span class="font-title text-gradient">coders</span>
+        <span class="text-gradient">coders</span>
       </h1>
 
       <p class="w-full max-w-4xl text-xl text-balance">
