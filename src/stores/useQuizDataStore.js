@@ -3,11 +3,12 @@ import axios from 'axios';
 
 const VITE_API_KEY_QUIZ = import.meta.env.VITE_API_KEY_QUIZ;
 
-export const useQuizStore = defineStore('quizStore', {
+export const useQuizDataStore = defineStore('quizStore', {
     state: () => ({
         quizData: [],
         loading: false,
-        errorMessage: null
+        errorMessage: null,
+        category:null,
     }),
     actions: {
         async fetchData(params) {
@@ -29,6 +30,9 @@ export const useQuizStore = defineStore('quizStore', {
             } finally {
                 this.loading = false;
             }
+        },
+        setCategory(category){
+            this.category=category
         }
     }
 })

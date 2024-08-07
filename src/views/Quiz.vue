@@ -88,6 +88,8 @@ import ProgressBar from '../components/viewQuizComponents/ProgressBar.vue';
 import Answers from '../components/viewQuizComponents/Answers.vue';
 import correctSound from '../assets/sounds/correct.mp3';
 import incorrectSound from '../assets/sounds/incorrect.mp3';
+import { mapState } from 'pinia'
+import { useQuizDataStore } from '../stores/useQuizDataStore.js';
 
 export default {
     name: 'Quiz',
@@ -102,12 +104,7 @@ export default {
         return {
             id_Answers: [ "a", "b", "c", "d", "e", "f" ],
             countCorrectAnswers: 0,
-            quizData: null,
             currentQuiz: 0,
-            errorMessage: null,
-            loading: false,
-            limit: 10,
-            category: 'Code',
             selectedAnswers: [],
             correctAnswers: [],
             isAnswerSelected: false,
@@ -117,6 +114,7 @@ export default {
         };
     },
     computed: {
+        ...mapState(useQuizDataStore, [ 'quizData', 'loading', 'errorMessage' ]),
         currentQuestion() {
             return this.quizData ? this.quizData[ this.currentQuiz ] : {};
         },
@@ -133,27 +131,6 @@ export default {
         }
     },
     methods: {
-
-        //Obtenemos los datos del Quiz
-        async fetchQuiz() {
-            this.loading = true;
-            this.errorMessage = null;
-            try {
-                const params = {
-                    limit: this.limit,
-                    category: this.category
-                };
-                this.quizData = await getQuiz(params);
-                console.log("quizData", this.quizData);
-            } catch (error) {
-                this.errorMessage = error.response ?
-                    `Error: ${error.response.status} - ${error.response.data}` :
-                    'Error: No response received from the server';
-                console.error('Error fetching quiz data:', error);
-            } finally {
-                this.loading = false;
-            }
-        },
 
         // Filtramos las preguntas para obtener solo las que no son null.
         filteredAnswers(answers) {
@@ -289,10 +266,6 @@ export default {
         openModal() {
             this.isModalVisible = true;
         },
-    },
-    mounted() {
-        this.fetchQuiz();
-
     },
 
 };
