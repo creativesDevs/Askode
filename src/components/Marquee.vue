@@ -1,6 +1,6 @@
 <template>
-  <section class="flex flex-col justify-center items-center z-30 gap-[130px]">
-    <h2 class="uppercase text-7xl">Play different categories</h2>
+  <section class="flex flex-col justify-center items-center z-30 gap-[130px] mt-16">
+    <h2 class="uppercase text-6xl text-gradient">Play different categories</h2>
 
     <div class="w-[80vw] flex flex-col gap-12">
       <div 

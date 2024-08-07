@@ -1,5 +1,5 @@
 <template>
-  <footer class="flex justify-center bg-black/20 w-full h-[130px] mt-[150px] z-40">
+  <footer class="flex justify-center bg-black/30 w-full h-[130px] mt-[220px] z-40">
     <div class="flex items-center justify-between w-[80vw]">
       <div class="text-white">
         <p>2024 © All rights reserved</p>
