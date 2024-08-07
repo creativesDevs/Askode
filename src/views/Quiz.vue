@@ -1,5 +1,6 @@
 <template>
-    <main class="flex flex-col gap-14 pt-20 items-center w-full h-full  overflow-hidden">
+    <Navbar/>
+    <main class="flex flex-col gap-14 items-center justify-center w-full h-screen overflow-hidden">
         <!-- Background gradients decorations -->
         <div class="absolute inset-0 bg-combined-gradient"></div>
         <div class="absolute top-[-50%] left-[25%] bg-gradient-radial-2 w-[50vw] h-[50vw] rounded-full blur-[350px]">
@@ -88,6 +89,7 @@ import ProgressBar from '../components/viewQuizComponents/ProgressBar.vue';
 import Answers from '../components/viewQuizComponents/Answers.vue';
 import correctSound from '../assets/sounds/correct.mp3';
 import incorrectSound from '../assets/sounds/incorrect.mp3';
+import Navbar from '../components/Navbar.vue';
 
 export default {
     name: 'Quiz',
@@ -96,7 +98,8 @@ export default {
         Loader,
         Questions,
         ProgressBar,
-        Answers
+        Answers,
+        Navbar
     },
     data() {
         return {

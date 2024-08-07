@@ -6,10 +6,10 @@
             </div>
 
             <div class="flex gap-4">
-                <router-link to="Categories">
+                <router-link v-if="!isGamePage" to="/game">
                 <button class="uppercase w-36 h-14 text-xl rounded-lg bg-custom-purple">Play</button>
                 </router-link>
-                <router-link to="Login">
+                <router-link to="/login">
                     <button class="uppercase w-36 h-14 text-xl rounded-lg border border-custom-purple">Login</button>
                 </router-link>
 
@@ -20,8 +20,21 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
 export default {
 name: "Navbar",
+setup() {
+    const route = useRoute()
+
+    const isGamePage = computed(() => {
+        return route.path === "/game"
+    })
+return {
+    isGamePage
+}
+}
 
 }
 </script>
