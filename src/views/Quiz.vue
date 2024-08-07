@@ -202,6 +202,7 @@ export default {
 
         updateMultipleSelections(index) {
             this.selectedAnswers.push(index);
+
         },
 
         updateSingleSelection(index) {
