@@ -13,12 +13,15 @@
   span,
   a,
   li,
-  button {
+  button,
+  input,
+  ::placeholder {
     font-family: "Bruno Ace";
   }
 
   h1 span,
-  h2{
+  h2,
+  h2 span {
     font-family: "Press Start 2P";
   }
 }

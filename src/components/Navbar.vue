@@ -9,7 +9,7 @@
                 <router-link v-if="!isGamePage" to="/game">
                 <button class="uppercase w-36 h-14 text-xl rounded-lg bg-custom-purple">Play</button>
                 </router-link>
-                <router-link to="/login">
+                <router-link v-if="!isLoginPage" to="/login">
                     <button class="uppercase w-36 h-14 text-xl rounded-lg border border-custom-purple">Login</button>
                 </router-link>
 
@@ -31,10 +31,14 @@ setup() {
     const isGamePage = computed(() => {
         return route.path === "/game"
     })
+    const isLoginPage = computed(() => {
+        return route.path === "/login"
+    })
 return {
-    isGamePage
+    isGamePage,
+    isLoginPage
 }
-}
+},
 
 }
 </script>
