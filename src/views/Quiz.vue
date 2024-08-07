@@ -35,14 +35,14 @@
             <!-- Answers component -->
             <Answers :answersSelected="isAnswerSelected" :filteredAnswers="filteredAnswers(currentQuestion.answers)"
                 :idAnswers="id_Answers"
-                :condition="(selectedAnswers.length <= correctAnswers && currentQuiz >= lastAnswered && isAnswerSelected)"
+                :condition="(selectedAnswers.length <= correctAnswers && currentQuiz >= lastAnswered && !isAnswerSelected)"
                 @ButtonClass="buttonClass" @SelectAnswers="selectAnswer" />
         </section>
 
         <!-- Navigation Buttons -->
         <button
             class="text-6xl z-10 fixed right-10 top-[50%] translate-y-[-50%] opacity-80 hover:opacity-100 duration-300"
-            v-if="isAnswerSelected && !finalQuestion" @click="nextQuestion"
+            v-if="isAnswerSelected && !finalQuestion && quizData" @click="nextQuestion"
             :disabled="currentQuiz >= quizData.length - 1">
             <svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg"
                 transform="rotate(180)">
@@ -80,7 +80,6 @@
 </template>
 
 <script>
-import getQuiz from '../api/apiQuiz.js';
 import Modal from '../components/viewQuizComponents/Modal.vue';
 import Loader from '../components/viewQuizComponents/Loader.vue';
 import Questions from '../components/viewQuizComponents/Questions.vue';
@@ -179,11 +178,13 @@ export default {
 
         updateMultipleSelections(index) {
             this.selectedAnswers.push(index);
+            this.lastAnswered = Math.max(this.lastAnswered, this.currentQuiz)
 
         },
 
         updateSingleSelection(index) {
             this.selectedAnswers = [ index ];
+            this.lastAnswered = Math.max(this.lastAnswered, this.currentQuiz)
             this.isAnswerSelected = true; // Bloquea la selección adicional si se selecciona la respuesta correcta
 
         },
@@ -234,10 +235,10 @@ export default {
                     // Reiniciamos el estado de la selección
                     this.selectedAnswers = [];
                     this.correctAnswers = [];
-                    this.isAnswerSelected = false;
+                    if(this.lastAnswered!==this.currentQuiz) this.isAnswerSelected = false;
                 }
                 // Actualizamos el índice de la última pregunta contestada
-                this.lastAnswered = Math.max(this.lastAnswered, this.currentQuiz);
+                ;
             }
         },
 

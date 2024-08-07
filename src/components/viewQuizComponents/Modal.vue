@@ -15,13 +15,13 @@
         <div class="z-10 w-[70vw]">
             <ul class="grid grid-cols-2 z-10 gap-10">
                 <li class="flex ">
-                    <button class="py-5 px-5 rounded-xl border-2 border-white flex-grow flex items-center duration-300" @click="resetQuiz">
+                    <button class="py-5 px-5 rounded-xl border-2 border-custom-purple flex-grow flex items-center duration-300" @click="resetQuiz">
                         <div class="flex-shrink-0"></div>
                         <span class="pl-3 text-start">Reset Game</span>
                     </button>
                 </li>
                 <li class="flex ">
-                    <button class="py-5 px-5 rounded-xl border-2 border-white flex-grow flex items-center duration-300" @click="startNewGame">
+                    <button class="py-5 px-5 rounded-xl border-2 border-custom-purple flex-grow flex items-center duration-300" @click="startNewGame">
                         <div class="flex-shrink-0"></div>
                         <span class="pl-3 text-start">New Game</span>
                     </button>
