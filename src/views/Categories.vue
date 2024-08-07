@@ -110,6 +110,7 @@ export default {
     },
     methods: {
         selectCategory(category) {
+            // select category
             this.category = category
             console.log(this.category);
 
