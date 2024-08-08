@@ -3,12 +3,13 @@
 </template>
 
 <script>
-import { useAuthStore } from './stores/authStore'; // Ajusta la ruta si es necesario
+import { useAuthStore } from './stores/authStore'; 
 
 export default {
   name: 'App',
   async created() {
     const authStore = useAuthStore();
+    
     try {
       await authStore.fetchUserName(); // Sincroniza el estado de autenticación
     } catch (error) {

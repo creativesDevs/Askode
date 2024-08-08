@@ -12,15 +12,27 @@
             <h2 class="text-5xl text-center py-2 text-gradient">Game Over</h2>
         </div>
         <!-- Buttons modal -->
-        <div class="z-10 w-[70vw]">
-            <ul class="grid grid-cols-2 z-10 gap-10">
-                <li class="flex ">
-                    <button class="py-5 px-5 rounded-xl border-2 border-custom-purple flex-grow flex items-center duration-300" @click="resetQuiz">
+        <div class="z-10 w-[60vw]">
+            <ul class="grid grid-cols-1 md:grid-cols-2 z-10 gap-5 md:gap-10 text-2xl">
+                <li class="flex">
+                    <button class="py-5 px-5 rounded-xl border-2 border-custom-purple flex-grow flex items-center duration-300" @click="this.$router.push('/')">
                         <div class="flex-shrink-0"></div>
-                        <span class="pl-3 text-start">Reset Game</span>
+                        <span class="pl-3 text-start">Home</span>
                     </button>
                 </li>
-                <li class="flex ">
+                <li class="flex">
+                    <button class="py-5 px-5 rounded-xl border-2 border-custom-purple flex-grow flex items-center duration-300" @click="this.$router.push('/categories')">
+                        <div class="flex-shrink-0"></div>
+                        <span class="pl-3 text-start">Categories</span>
+                    </button>
+                </li>
+                <li class="flex">
+                    <button class="py-5 px-5 rounded-xl border-2 border-custom-purple flex-grow flex items-center duration-300" @click="resetQuiz">
+                        <div class="flex-shrink-0"></div>
+                        <span class="pl-3 text-start">Restart Game</span>
+                    </button>
+                </li>
+                <li class="flex">
                     <button class="py-5 px-5 rounded-xl border-2 border-custom-purple flex-grow flex items-center duration-300" @click="startNewGame">
                         <div class="flex-shrink-0"></div>
                         <span class="pl-3 text-start">New Game</span>
