@@ -1,6 +1,6 @@
 <template>
-    <div v-show="isLoading" class="text-8xl loading02">
-        <span class="loader">Loading...</span>
+    <div v-show="isLoading" >
+        <span class="loader text-2xl xl:text-8xl">Loading...</span>
     </div>
 </template>
 
@@ -20,15 +20,13 @@ export default {
 
 <style scoped>
 .loader {
-    font-weight: bold;
-    font-size: 3rem;
-    color: #333; /* Puedes ajustar el color según tus preferencias */
+    color: #ea00ff;
     animation: loading 1s linear infinite alternate;
 }
 
 @keyframes loading{
     to {
-        opacity: 10%;
+        opacity: 0;
     }
 }
 </style>

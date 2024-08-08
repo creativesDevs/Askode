@@ -1,12 +1,13 @@
 <template>
     <!-- Questions -->
-    <div>
-      <h2 v-if="CurrentQuestion.question" class="leading-loose text-2xl mx-24 text-gradient">
+    <div >
+      <h2 v-if="CurrentQuestion && CurrentQuestion.question" class="leading-loose px-2 sm:text-base md:text-2xl md:mx-24 text-gradient">
         {{ displayedText }}
       </h2>
-      <span class="absolute bottom-4 right-[40%] text-[#1ffffb] animate-pulse" v-show="multipleAnswers">
+      <span class="absolute bottom-4 right-[40%] text-[#1ffffb] animate-pulse text-xl" v-if="multipleAnswers &&!isAnswerSelected">
         Select all the correct answers
       </span>
+
     </div>
   </template>
   
@@ -25,9 +26,9 @@
     },
     data() {
       return {
-        displayedText: "", // Texto que se mostrará con el efecto de escritura
+        displayedText: "", 
         counter: 0,
-        delay: 30, // Ajusta el delay entre cada letra
+        delay: 30, 
       };
     },
     watch: {
@@ -41,16 +42,17 @@
     },
     methods: {
       startTypingEffect() {
-        this.resetData();
-        const text = this.CurrentQuestion.question || '';
-  
+      this.resetData();
+      if (this.CurrentQuestion && this.CurrentQuestion.question) {
+        const text = this.CurrentQuestion.question;
         for (let i = 0; i < text.length; i++) {
           setTimeout(() => {
             this.displayedText += text[i];
           }, this.delay * this.counter);
           this.counter += 1;
         }
-      },
+      }
+    },
       resetData() {
         this.displayedText = "";
         this.counter = 0;
