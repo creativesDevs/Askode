@@ -1,18 +1,18 @@
 <template>
-  <section class="flex flex-col justify-center items-center z-30 gap-[130px] mt-16">
-    <h2 class="uppercase text-6xl text-gradient">Play different categories</h2>
-
+  <section class="flex flex-col justify-center items-center z-30 gap-[130px] mt-[205px]">
+    <h2 class="uppercase text-6xl text-gradient text-center">Play different categories</h2>
     <div class="w-[80vw] flex flex-col gap-12">
       <div 
         v-for="(direction, index) in directions" 
         :key="index" 
         class="scroller" 
         :data-direction="direction"
+        ref="scrollers"
       >
         <ul class="icon-list scroller__inner flex justify-center items-center flex-nowrap gap-[100px] list-none">
           <li 
             v-for="(icon, i) in icons" 
-            :key="i" 
+            :key="icon.src" 
             class="flex justify-center items-center w-[100px] h-[100px] bg-black/20 rounded-lg"
           >
             <img 
@@ -26,6 +26,7 @@
     </div>
   </section>
 </template>
+
 
 <script>
 export default {
@@ -45,10 +46,8 @@ export default {
     }
   },
   mounted() {
-    const scrollers = document.querySelectorAll(".scroller");
-
     if (!window.matchMedia("(prefers-reduced-motion)").matches) {
-      this.addAnimation(scrollers);
+      this.addAnimation(this.$refs.scrollers);
     }
   },
   methods: {
@@ -70,9 +69,11 @@ export default {
 }
 </script>
 
+
 <style scoped>
 .scroller {
   overflow: hidden;
+  position: relative;
 }
 
 .scroller[data-animated="true"] {
@@ -83,15 +84,15 @@ export default {
 .scroller[data-animated="true"] .scroller__inner {
   display: flex;
   width: max-content;
-  animation: scroll var(--_animation-duration, 35s) var(--_animation-direction, normal) linear infinite;
+  animation: scroll 35s linear infinite;
 }
 
 .scroller[data-direction="right"] .scroller__inner {
-  --_animation-direction: reverse;
+  animation-direction: reverse;
 }
 
 .scroller[data-direction="left"] .scroller__inner {
-  --_animation-direction: normal;
+  animation-direction: normal;
 }
 
 .scroller:hover .scroller__inner {
@@ -99,8 +100,12 @@ export default {
 }
 
 @keyframes scroll {
-  to {
-    transform: translate(calc(-50% - 5rem));
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
   }
 }
 </style>
+

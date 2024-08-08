@@ -6,7 +6,7 @@
         </div>
   
         <div class="flex gap-4 items-center">
-          <router-link v-if="!isGamePage" to="/game">
+          <router-link v-if="!isGamePage" to="/categories">
             <button class="uppercase w-36 h-12 text-xl rounded-lg bg-custom-purple">Play</button>
           </router-link>
   
@@ -20,8 +20,8 @@
             <button class="uppercase w-36 h-12 text-xl rounded-lg border border-custom-purple">
               {{ authStore.userName }}
             </button>
-            <button @click="handleLogout" class="flex justify-center items-center uppercase w-6 h-12 text-xl rounded-md border border-custom-purple">
-              <img src="../assets/icons/logout.png" alt="Logout icon">
+            <button @click="handleLogout" class="flex justify-center items-center no-bg">
+              <img class="h-12 w-10" src="../assets/icons/logout.png" alt="Logout icon">
             </button>
           </div>
         </div>
