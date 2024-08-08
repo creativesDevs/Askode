@@ -11,12 +11,9 @@ const pinia = createPinia();
 app.use(router);
 app.use(pinia);
 
-// Inicializa el store de autenticación
 const authStore = useAuthStore(pinia);
-authStore.initialize().then(() => {
-  // Puedes hacer algo después de que se haya inicializado el authStore
-}).catch(error => {
-  console.error('Error initializing auth store:', error);
+authStore.initialize().then(() => {})
+  .catch(error => {console.error('Error initializing auth store:', error);
 });
 
 app.mount("#app");
