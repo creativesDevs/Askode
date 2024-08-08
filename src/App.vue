@@ -9,8 +9,16 @@ export default {
   name: 'App',
   async created() {
     const authStore = useAuthStore();
-    await authStore.fetchUser(); // Sincroniza el estado de autenticación
+    try {
+      await authStore.fetchUserName(); // Sincroniza el estado de autenticación
+    } catch (error) {
+      console.error('Error fetching user name:', error);
+    }
   },
 }
 </script>
+
+<style>
+</style>
+
 
