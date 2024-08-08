@@ -27,7 +27,7 @@
       </p>
 
       <router-link to="/game">
-        <button class="uppercase w-36 h-14 text-xl rounded-lg bg-custom-purple" @click="goToCategories">Play</button>
+        <button class="uppercase w-36 h-12 text-xl rounded-lg bg-custom-purple" @click="goToCategories">Play</button>
       </router-link>
 
     </div>
@@ -85,7 +85,7 @@
       skills today. Challenge yourself and see how much you can achieve!</p>
       
       <router-link to="/game">
-        <button class="uppercase w-52 h-14 text-xl rounded-lg bg-custom-purple" @click="goToCategories">Play now</button>
+        <button class="uppercase w-48 h-12 text-xl rounded-lg bg-custom-purple" @click="goToCategories">Play now</button>
       </router-link>
 
     </div>
@@ -114,5 +114,12 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+    button {
+        transition: 0.3s ease-in-out;
+    }
+    button:hover {
+        background: #8331A5;
+        transition: 0.3s ease-in-out;
+    }
 </style>
