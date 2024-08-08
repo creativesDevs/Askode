@@ -9,8 +9,8 @@
             <h2 class="uppercase text-6xl text-gradient">Login</h2>
             <form @submit.prevent="submitForm" class="flex flex-col w-full mt-[75px] gap-[30px]">
                 <div class="relative">
-                    <input v-model="username" type="text" name="username" placeholder="Username" class="w-full h-[65px] bg-transparent border border-custom-purple rounded-lg px-2 placeholder:text-xl placeholder:text-white/50 text-xl" required>
-                    <img src="../assets/icons/user.png" class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 opacity-50">
+                    <input v-model="email" type="text" name="email" placeholder="Email" class="w-full h-[65px] bg-transparent border border-custom-purple rounded-lg px-2 placeholder:text-xl placeholder:text-white/50 text-xl" required>
+                    <img src="../assets/icons/email.png" class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 opacity-50">
                 </div>
                 <div class="relative">
                     <input v-model="password" :type="passwordFieldType" name="password" placeholder="Password" class="w-full h-[65px] bg-transparent border border-custom-purple rounded-lg px-2 placeholder:text-xl placeholder:text-white/50 text-xl pr-10" required>
@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import { useAuthStore } from '../stores/authStore'; // Ajusta la ruta si es necesario
 import Navbar from '../components/Navbar.vue';
 
 export default {
@@ -36,7 +37,7 @@ export default {
     },
     data() {
         return {
-            username: '',
+            email: '',
             password: '',
             showPassword: false,
         };
@@ -50,9 +51,15 @@ export default {
         togglePasswordVisibility() {
             this.showPassword = !this.showPassword;
         },
-        submitForm() {
-            if (this.username && this.password) {
-                alert('Form successfully submitted');
+        async submitForm() {
+            if (this.email && this.password) {
+                const authStore = useAuthStore();
+                try {
+                    await authStore.login(this.email, this.password);
+                    this.$router.push('/'); 
+                } catch (error) {
+                    alert('Login failed: ' + error.message);
+                }
             } else {
                 alert('Please, fill in all fields');
             }
@@ -61,7 +68,5 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
 </style>
-
