@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { useAuthStore } from '../stores/authStore'; // Ajusta la ruta si es necesario
+import { useAuthStore } from '../stores/authStore'; 
 import Navbar from '../components/Navbar.vue';
 
 export default {
@@ -56,7 +56,8 @@ export default {
                 const authStore = useAuthStore();
                 try {
                     await authStore.login(this.email, this.password);
-                    this.$router.push('/'); 
+                    const redirectPath = this.$route.query.redirect || '/'; // Redirige a la ruta original o al home
+                    this.$router.push(redirectPath);
                 } catch (error) {
                     alert('Login failed: ' + error.message);
                 }
@@ -69,4 +70,5 @@ export default {
 </script>
 
 <style>
+
 </style>

@@ -20,7 +20,7 @@
             <button class="uppercase w-36 h-12 text-xl rounded-lg border border-custom-purple">
               {{ authStore.userName }}
             </button>
-            <button @click="handleLogout" class="flex justify-center items-center no-bg">
+            <button @click="handleLogout" class="flex justify-center items-center logout-button">
               <img class="h-12 w-10" src="../assets/icons/logout.png" alt="Logout icon">
             </button>
           </div>
@@ -70,6 +70,10 @@
     button:hover {
         background: #8331A5;
         transition: 0.3s ease-in-out;
+    }
+
+    .logout-button:hover {
+      background: none;
     }
   </style>
   

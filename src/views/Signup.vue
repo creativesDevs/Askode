@@ -33,62 +33,65 @@
     </main>
   </template>
   
-  <script>
-  import Navbar from '../components/Navbar.vue';
-  import { auth, firestore } from '../firebase.js';
-  import { createUserWithEmailAndPassword } from 'firebase/auth';
-  import { doc, setDoc } from 'firebase/firestore';
-  
-  export default {
+<script>
+import Navbar from '../components/Navbar.vue';
+import { auth, firestore } from '../firebase.js';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+
+export default {
     name: 'Signup',
     components: {
-      Navbar,
+        Navbar,
     },
     data() {
-      return {
-        username: '',
-        email: '',
-        password: '',
-        confirm_password: '',
-        showPassword: false,
-      };
+        return {
+            username: '',
+            email: '',
+            password: '',
+            confirm_password: '',
+            showPassword: false,
+        };
     },
     computed: {
-      passwordFieldType() {
-        return this.showPassword ? 'text' : 'password';
-      },
+        passwordFieldType() {
+            return this.showPassword ? 'text' : 'password';
+        },
     },
     methods: {
-      togglePasswordVisibility() {
-        this.showPassword = !this.showPassword;
-      },
-      async submitForm() {
-        if (this.password !== this.confirm_password) {
-          alert('Passwords do not match');
-          return;
-        }
-        
-        try {
-          // Crear usuario en Firebase Authentication
-          const userCredential = await createUserWithEmailAndPassword(auth, this.email, this.password);
-          const user = userCredential.user;
-  
-          // Almacenar información adicional en Firestore
-          await setDoc(doc(firestore, 'users', user.uid), {
-            username: this.username,
-            email: this.email,
-          });
-  
-          alert('Signup successful');
-          this.$router.push('/login'); 
-        } catch (error) {
-          console.error('Signup failed: ', error.message);
-          alert('Signup failed: ' + error.message);
-        }
-      },
+        togglePasswordVisibility() {
+            this.showPassword = !this.showPassword;
+        },
+        async submitForm() {
+            if (this.password !== this.confirm_password) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            try {
+                // Crear usuario en Firebase Authentication
+                const userCredential = await createUserWithEmailAndPassword(auth, this.email, this.password);
+                const user = userCredential.user;
+
+                // Almacenar información adicional en Firestore
+                await setDoc(doc(firestore, 'users', user.uid), {
+                    username: this.username,
+                    email: this.email,
+                });
+
+                // Desloguear al usuario inmediatamente después de registrarse
+                await auth.signOut();
+
+                alert('Signup successful. Please login to continue.');
+                this.$router.push('/login');
+            } catch (error) {
+                console.error('Signup failed: ', error.message);
+                alert('Signup failed: ' + error.message);
+            }
+        },
     },
-  };
-  </script>
+};
+</script>
   
   
   <style>

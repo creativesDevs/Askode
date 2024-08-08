@@ -34,22 +34,21 @@ const router = createRouter({
   routes,
 });
 
-// Añade una guardia global de navegación
 router.beforeEach((to, from, next) => {
-  const authStore = useAuthStore(); // Obtén el store de autenticación
+  const authStore = useAuthStore();
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    // Esta ruta requiere autenticación, verifica si el usuario está autenticado
     if (!authStore.isAuthenticated) {
-      // Si no está autenticado, redirige a la página de login
-      next({ name: 'login' });
+      next({
+        name: 'login',
+        query: { redirect: to.fullPath } // Guardar la ruta original a la que intentaba acceder
+      });
     } else {
-      // Si está autenticado, permite el acceso
       next();
     }
   } else {
-    // Si la ruta no requiere autenticación, permite el acceso
     next();
   }
 });
+
 
 export default router;
