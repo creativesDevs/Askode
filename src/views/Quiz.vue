@@ -1,6 +1,6 @@
 <template>
     <Navbar/>
-    <main class="flex flex-col gap-14 items-center justify-center w-full h-screen overflow-hidden">
+    <main class="flex flex-col gap-14 items-center justify-center w-full h-full mt-40 ">
         <!-- Background gradients decorations -->
         <div class="absolute inset-0 bg-combined-gradient"></div>
         <div class="absolute top-[-50%] left-[25%] bg-gradient-radial-2 w-[50vw] h-[50vw] rounded-full blur-[350px]">

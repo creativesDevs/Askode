@@ -26,9 +26,7 @@
         feedback. Enhance your coding abilities today!
       </p>
 
-      <router-link to="/game">
         <button class="uppercase w-36 h-12 text-xl rounded-lg bg-custom-purple" @click="goToCategories">Play</button>
-      </router-link>
 
     </div>
   </section>
@@ -84,14 +82,12 @@
       <p class="w-[1000px] text-xl text-balance">Dive into our engaging programming quizzes and start enhancing your
       skills today. Challenge yourself and see how much you can achieve!</p>
       
-      <router-link to="/game">
         <button class="uppercase w-48 h-12 text-xl rounded-lg bg-custom-purple" @click="goToCategories">Play now</button>
-      </router-link>
 
     </div>
   </section>
 
-  <Footer/>
+  <Footer />
 </div>
 </template>
 
