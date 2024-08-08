@@ -1,21 +1,19 @@
 <template>
-<main 
-v-if="quizData"
-class="flex flex-col gap-14 pt-20 items-center w-full h-full  overflow-hidden">
-    <!-- Background gradients decorations -->
-    <div class="absolute inset-0 bg-combined-gradient"></div>
-    <div class="absolute top-[-50%] left-[25%] bg-gradient-radial-2 w-[50vw] h-[50vw] rounded-full blur-[350px]">
-    </div>
-    <!-- Comoponent modal -->
-    <Modal v-if="isModalVisible" @resetQuiz="reset" />
-    <!-- container Loading and Error message -->
-    <div v-show="loading || errorMessage" class="flex h-[85%]  justify-center items-center">
-        <!-- Loader component -->
-        <Loader :isLoading="loading" />
-        <!-- Error message -->
-        <h2 class="text-3xl">{{ errorMessage }}</h2>
-    </div>
-
+    <Navbar/>
+    <main class="flex flex-col gap-14 items-center justify-center w-full h-screen overflow-hidden">
+        <!-- Background gradients decorations -->
+        <div class="absolute inset-0 bg-combined-gradient"></div>
+        <div class="absolute top-[-50%] left-[25%] bg-gradient-radial-2 w-[50vw] h-[50vw] rounded-full blur-[350px]">
+        </div>
+        <!-- Comoponent modal -->
+        <Modal v-if="isModalVisible" @resetQuiz="reset" />
+        <!-- container Loading and Error message -->
+        <div v-show="loading || errorMessage" class="flex h-[85%]  justify-center items-center">
+            <!-- Loader component -->
+            <Loader :isLoading="loading" />
+            <!-- Error message -->
+            <h2 class="text-3xl">{{ errorMessage }}</h2>
+        </div>
     <!-- Game -->
     <section v-if="quizData" class="w-[80vw] min-h-[300px] bg-black/70 p-10 z-10 rounded-lg flex flex-col justify-center relative ">
         <!-- Component Progress Bar -->
@@ -70,12 +68,9 @@ import ProgressBar from '../components/viewQuizComponents/ProgressBar.vue';
 import Answers from '../components/viewQuizComponents/Answers.vue';
 import correctSound from '../assets/sounds/correct.mp3';
 import incorrectSound from '../assets/sounds/incorrect.mp3';
-import {
-    mapState,mapActions
-} from 'pinia'
-import {
-    useQuizDataStore
-} from '../stores/useQuizDataStore.js';
+import { mapState,mapActions } from 'pinia'
+import { useQuizDataStore } from '../stores/useQuizDataStore.js';
+import Navbar from '../components/Navbar.vue';
 
 export default {
     name: 'Quiz',
@@ -84,7 +79,8 @@ export default {
         Loader,
         Questions,
         ProgressBar,
-        Answers
+        Answers,
+        Navbar
     },
     data() {
         return {

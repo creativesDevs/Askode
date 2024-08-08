@@ -26,7 +26,10 @@
         feedback. Enhance your coding abilities today!
       </p>
 
-      <button class="uppercase w-36 h-14 text-xl rounded-lg bg-custom-purple" @click="goToCategories">Play</button>
+      <router-link to="/game">
+        <button class="uppercase w-36 h-12 text-xl rounded-lg bg-custom-purple" @click="goToCategories">Play</button>
+      </router-link>
+
     </div>
   </section>
 
@@ -80,8 +83,11 @@
     <div class="flex flex-col items-center gap-16 text-center">
       <p class="w-[1000px] text-xl text-balance">Dive into our engaging programming quizzes and start enhancing your
       skills today. Challenge yourself and see how much you can achieve!</p>
+      
+      <router-link to="/game">
+        <button class="uppercase w-48 h-12 text-xl rounded-lg bg-custom-purple" @click="goToCategories">Play now</button>
+      </router-link>
 
-      <button class="uppercase w-52 h-14 text-xl rounded-lg bg-custom-purple" @click="goToCategories">Play now</button>
     </div>
   </section>
 
@@ -108,5 +114,12 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+    button {
+        transition: 0.3s ease-in-out;
+    }
+    button:hover {
+        background: #8331A5;
+        transition: 0.3s ease-in-out;
+    }
 </style>
