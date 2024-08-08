@@ -1,10 +1,10 @@
 <template>
     <!-- Questions -->
     <div>
-      <h2 v-if="CurrentQuestion.question" class="leading-loose text-2xl  py-2 text-gradient">
+      <h2 v-if="CurrentQuestion.question" class="leading-loose text-2xl mx-24 text-gradient">
         {{ displayedText }}
       </h2>
-      <span class="absolute bottom-2 right-[40%] text-[#1ffffb] animate-pulse" v-show="multipleAnswers">
+      <span class="absolute bottom-4 right-[40%] text-[#1ffffb] animate-pulse" v-show="multipleAnswers">
         Select all the correct answers
       </span>
     </div>

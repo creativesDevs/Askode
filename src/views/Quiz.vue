@@ -15,17 +15,17 @@
             <h2 class="text-3xl">{{ errorMessage }}</h2>
         </div>
     <!-- Game -->
-    <section v-if="quizData" class="w-[80vw] min-h-[300px] bg-black/70 p-10 z-10 rounded-lg flex flex-col justify-center relative ">
+    <section v-if="quizData" class="w-[80vw] min-h-[300px] bg-black/70  z-10 rounded-lg flex flex-col justify-center relative ">
         <!-- Component Progress Bar -->
         <ProgressBar :widthBar="progressBarWidth" :count="countCorrectAnswers" :quizDataLength="quizData.length" />
         <!-- Component Questions -->
         <Questions v-show="currentQuestion" :CurrentQuestion="currentQuestion" :multipleAnswers="multipleCorrectAnswers" />
         <!-- Open modal button at last question -->
-        <button v-if="finalQuestion && isAnswerSelected" @click="openModal" class="absolute bottom-5 right-5 border-2 text-lime-400 border-lime-400 px-5 py-3 rounded-lg hover:border-[#cc00ff] hover:text-white duration-300 transition-colors">
+        <button v-if="finalQuestion && isAnswerSelected" @click="openModal" class="absolute bottom-5 right-24 border-2 text-white border-custom-purple  px-5 py-3 rounded-lg hover:border-custom-purple hover:text-custom-purple duration-300 ">
             Finish the game
         </button>
         <!-- Feedback for users on the current question -->
-        <span v-else class="absolute bottom-5 right-5">Question {{ currentQuiz + 1 }}</span>
+        <span v-else class="absolute bottom-5 right-24">Question {{ currentQuiz + 1 }}</span>
     </section>
     <!-- Answers container-->
     <section v-if="quizData" class="z-10 w-[70vw]">

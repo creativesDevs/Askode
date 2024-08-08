@@ -36,9 +36,9 @@
     -webkit-text-fill-color: transparent;
   }
   .correct {
-    @apply border-2 border-green-500 text-white box-border;
+    @apply border-2 border-lime-400 text-white box-border;
   }
   .incorrect {
-    @apply border-2 border-red-600 text-white box-border;
+    @apply border-2 border-red-500 text-white box-border;
   }
 }
