@@ -1,21 +1,21 @@
 <template>
-    <Navbar/>
-    <main class="flex flex-col gap-14 items-center justify-center w-full h-full mt-40 ">
-        <!-- Background gradients decorations -->
-        <div class="absolute inset-0 bg-combined-gradient"></div>
-        <div class="absolute top-[-50%] left-[25%] bg-gradient-radial-2 w-[50vw] h-[50vw] rounded-full blur-[350px]">
-        </div>
-        <!-- Comoponent modal -->
-        <Modal v-if="isModalVisible" @resetQuiz="reset" />
-        <!-- container Loading and Error message -->
-        <div v-show="loading || errorMessage" class="flex h-[85%]  justify-center items-center">
-            <!-- Loader component -->
-            <Loader :isLoading="loading" />
-            <!-- Error message -->
-            <h2 class="text-3xl">{{ errorMessage }}</h2>
-        </div>
+<Navbar />
+<main class="flex flex-col md:gap-14 items-center justify-center md:w-full h-full mt-40 ">
+    <!-- Background gradients decorations -->
+    <div class="absolute inset-0 bg-combined-gradient"></div>
+    <div class="absolute top-[-50%] left-[25%] bg-gradient-radial-2 w-[50vw] h-[50vw] rounded-full blur-[350px]">
+    </div>
+    <!-- container Loading and Error message -->
+    <div v-if="loading || errorMessage" class="flex justify-center items-center mt-64">
+        <!-- Loader component -->
+        <Loader :isLoading="loading" />
+        <!-- Error message -->
+        <h2 class="text-3xl">{{ errorMessage }}</h2>
+    </div>
+    <!-- Comoponent modal -->
+    <Modal v-if="isModalVisible" @resetQuiz="reset" />
     <!-- Game -->
-    <section v-if="quizData" class="w-[80vw] min-h-[300px] bg-black/70  z-10 rounded-lg flex flex-col justify-center relative ">
+    <section v-if="quizData && !loading" class="w-full px-5 lg:w-[80vw] min-h-[300px] bg-black/70  z-10 rounded-lg flex flex-col justify-center relative ">
         <!-- Component Progress Bar -->
         <ProgressBar :widthBar="progressBarWidth" :count="countCorrectAnswers" :quizDataLength="quizData.length" />
         <!-- Component Questions -->
@@ -25,38 +25,41 @@
             Finish the game
         </button>
         <!-- Feedback for users on the current question -->
-        <span v-else class="absolute bottom-5 right-24">Question {{ currentQuiz + 1 }}</span>
+        <span v-else class="absolute bottom-5 right-2 xl:right-24 xl:text-xl">Question {{ currentQuiz + 1 }}</span>
     </section>
     <!-- Answers container-->
-    <section v-if="quizData" class="z-10 w-[70vw]">
+    <section v-if="quizData && currentQuestion" class="z-10 w-full px-5 md:px-0 md:w-[80%] lg:w-[70vw]">
         <!-- Answers component -->
-        <Answers :answersSelected="isAnswerSelected" :filteredAnswers="filteredAnswers(currentQuestion.answers)" :idAnswers="id_Answers" :condition="(selectedAnswers.length <= correctAnswers && currentQuiz >= lastAnswered && !isAnswerSelected)" @ButtonClass="buttonClass" @SelectAnswers="selectAnswer" />
+        <Answers :answersSelected="isAnswerSelected" :filteredAnswers="filteredAnswers(currentQuestion.answers)" :idAnswers="id_Answers" :condition="(selectedAnswers.length <= correctAnswers && currentQuiz >= lastAnswered && !isAnswerSelected)" @ButtonClass="buttonClass" @SelectAnswers="selectAnswer" @nextQuestion="nextQuestion" />
     </section>
 
     <!-- Navigation Buttons -->
-    <button class="text-6xl z-10 fixed right-10 top-[50%] translate-y-[-50%] opacity-80 hover:opacity-100 duration-300" v-if="isAnswerSelected && !finalQuestion && quizData" @click="nextQuestion" :disabled="currentQuiz >= quizData.length - 1">
-        <svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(180)">
-            <path d="M56.25 12.5H50V18.75H43.75V25H37.5V31.25H31.25V43.75H37.5V50H43.75V56.25H50V62.5H56.25V12.5ZM18.75 12.5H25V62.5H18.75V12.5Z" fill="url(#paint0_linear_1)" />
-            <defs>
-                <linearGradient id="paint0_linear_1" x1="37.5" y1="2.5" x2="37.5" y2="42.5" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="white" />
-                    <stop offset="1" stop-color="#CC00FF" />
-                </linearGradient>
-            </defs>
-        </svg>
-    </button>
+    <div class="flex flex-row-reverse md:block">
+        <button class="z-10 md:fixed right-0 xl:right-32 bottom-0 md:top-[20%] block  opacity-80 hover:opacity-100 duration-300  " v-if="isAnswerSelected && !finalQuestion && quizData" @click="nextQuestion" :disabled="currentQuiz >= quizData.length - 1">
+            <svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(180)">
+                <path d="M56.25 12.5H50V18.75H43.75V25H37.5V31.25H31.25V43.75H37.5V50H43.75V56.25H50V62.5H56.25V12.5ZM18.75 12.5H25V62.5H18.75V12.5Z" fill="url(#paint0_linear_1)" />
+                <defs>
+                    <linearGradient id="paint0_linear_1" x1="37.5" y1="2.5" x2="37.5" y2="42.5" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="white" />
+                        <stop offset="1" stop-color="#CC00FF" />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </button>
 
-    <button class="text-6xl z-10 left-10 top-[50%] translate-y-[-50%] fixed opacity-80 hover:opacity-100 duration-300" v-if="(currentQuiz > 0)" @click="previousQuestion">
-        <svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(360)">
-            <path d="M56.25 12.5H50V18.75H43.75V25H37.5V31.25H31.25V43.75H37.5V50H43.75V56.25H50V62.5H56.25V12.5ZM18.75 12.5H25V62.5H18.75V12.5Z" fill="url(#paint0_linear_2)" />
-            <defs>
-                <linearGradient id="paint0_linear_2" x1="37.5" y1="12.5" x2="57.5" y2="92.5" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#CC00FF" />
-                    <stop offset="1" stop-color="white" />
-                </linearGradient>
-            </defs>
-        </svg>
-    </button>
+        <button class="text-6xl z-10 left-0 xl:left-32 bottom-0 md:top-[20%] block  md:fixed opacity-80 hover:opacity-100 duration-300 " v-if="(currentQuiz > 0)" @click="previousQuestion">
+            <svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(360)">
+                <path d="M56.25 12.5H50V18.75H43.75V25H37.5V31.25H31.25V43.75H37.5V50H43.75V56.25H50V62.5H56.25V12.5ZM18.75 12.5H25V62.5H18.75V12.5Z" fill="url(#paint0_linear_2)" />
+                <defs>
+                    <linearGradient id="paint0_linear_2" x1="37.5" y1="12.5" x2="57.5" y2="92.5" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#CC00FF" />
+                        <stop offset="1" stop-color="white" />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </button>
+
+    </div>
 </main>
 </template>
 
@@ -68,8 +71,13 @@ import ProgressBar from '../components/viewQuizComponents/ProgressBar.vue';
 import Answers from '../components/viewQuizComponents/Answers.vue';
 import correctSound from '../assets/sounds/correct.mp3';
 import incorrectSound from '../assets/sounds/incorrect.mp3';
-import { mapState,mapActions } from 'pinia'
-import { useQuizDataStore } from '../stores/useQuizDataStore.js';
+import {
+    mapState,
+    mapActions
+} from 'pinia'
+import {
+    useQuizDataStore
+} from '../stores/useQuizDataStore.js';
 import Navbar from '../components/Navbar.vue';
 
 export default {
@@ -98,16 +106,16 @@ export default {
     computed: {
         ...mapState(useQuizDataStore, ['quizData', 'loading', 'errorMessage', 'category']),
         currentQuestion() {
-    return this.quizData && this.quizData.length > 0 ? this.quizData[this.currentQuiz] : null;
-  },
+            return (this.quizData && this.quizData.length > 0) && this.quizData ? this.quizData[this.currentQuiz] : null;
+        },
         finalQuestion() {
             return this.quizData ? this.currentQuiz === this.quizData.length - 1 : false;
         },
         multipleCorrectAnswers() {
-            if(this.quizdata){
-                
-                return this.quizData ? this.quizData[this.currentQuiz].multiple_correct_answers === 'true' : false
+            if (this.quizData && this.quizData[this.currentQuiz]) {
+                return this.quizData[this.currentQuiz].multiple_correct_answers === 'true';
             }
+            return false;
         },
         progressBarWidth() {
             const totalQuestions = this.quizData.length;
@@ -123,13 +131,13 @@ export default {
         },
         playCorrectSound() {
             const audio = new Audio(correctSound);
-            audio.volume = 0.4; 
+            audio.volume = 0.4;
             audio.play();
         },
 
         playIncorrectSound() {
             const audio = new Audio(incorrectSound);
-            audio.volume = 0.5; 
+            audio.volume = 0.5;
             audio.play();
         },
         // Método de Selección 
@@ -254,18 +262,20 @@ export default {
         openModal() {
             this.isModalVisible = true;
         },
-        
+
     },
     created() {
-    const storedCategory = localStorage.getItem('selectedCategory');
-    if (!this.quizData || this.quizData.length === 0) {
-        if (storedCategory) {
-            this.fetchData({ category: storedCategory });
-        } else {
-            this.errorMessage = 'No se ha podido cargar los datos del cuestionario.';
+        const storedCategory = localStorage.getItem('selectedCategory');
+        if (!this.quizData || this.quizData.length === 0) {
+            if (storedCategory) {
+                this.fetchData({
+                    category: storedCategory
+                });
+            } else {
+                this.errorMessage = 'No se ha podido cargar los datos del cuestionario.';
+            }
         }
     }
-}
 };
 </script>
 

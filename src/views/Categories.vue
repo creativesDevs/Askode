@@ -12,14 +12,14 @@
             <h2 class="text-5xl text-center text-gradient">{{ displayedCategoryText }}</h2>
         </div>
         <!-- Selection buttons -->
-        <div class="flex flex-col gap-20 z-10 w-[60vw]">
-            <ul class="grid grid-cols-4 z-10 gap-x-16 gap-y-10">
+        <div class="flex flex-col gap-20 z-10 w-fit">
+            <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 z-10 gap-x-16 gap-y-10">
                 <li class="flex" v-for="category in categories" :key="category.id">
                     <button 
                     :class="{ 'border-green-500 ': selectedCategory === category.name }"
-                    class="py-5 px-5 rounded-lg border-2 border-custom-purple w-full flex-grow flex items-center duration-300 hover:bg-purple-300/20" 
+                    class="py-5 px-5 rounded-lg border-2 border-custom-purple w-full flex-grow flex-wrap flex items-center duration-300 hover:bg-purple-300/20" 
                     @click="selectCategory(category.name)">
-                    <span class="pl-3 mx-auto">{{ category.name }}</span>
+                    <span class="mx-auto">{{ category.name }}</span>
                 </button>
                 </li>
             </ul>

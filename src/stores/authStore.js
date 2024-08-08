@@ -6,7 +6,7 @@ import { doc, getDoc } from 'firebase/firestore';
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     user: null,
-    username: null, // Estado para almacenar el nombre de usuario
+    username: null, 
   }),
   actions: {
     async login(email, password) {
