@@ -19,18 +19,16 @@ export default {
 </script>
 
 <style scoped>
-/* HTML: <div class="loader"></div> */
 .loader {
     font-weight: bold;
-
     font-size: 3rem;
-    animation: 6 1s linear infinite alternate;
+    color: #333; /* Puedes ajustar el color según tus preferencias */
+    animation: loading 1s linear infinite alternate;
 }
 
-
-@keyframes l1 {
+@keyframes loading{
     to {
-        opacity: 0
+        opacity: 10%;
     }
 }
 </style>

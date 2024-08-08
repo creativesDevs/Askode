@@ -60,7 +60,7 @@ export default {
                 category: this.category
             })
 
-            this.$router.push('/game');
+            this.$router.go(0);
 
         },
     },

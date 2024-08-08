@@ -117,6 +117,7 @@
                 this.category = category;
                 this.selectedCategory = category; 
                 this.setCategory(category);
+                localStorage.setItem('selectedCategory', category);
                 console.log(this.category);
                 this.fetchData({
                     limit: this.limit,
