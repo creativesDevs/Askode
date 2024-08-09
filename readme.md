@@ -3,6 +3,7 @@
 ## 1. Presentación del Proyecto
 
 **AskCode** es una aplicación web que consume la **Quiz API** para proporcionar a los usuarios una serie de preguntas de opción múltiple. Estas preguntas son devueltas en un formato JSON, que luego es renderizado en la aplicación para que los usuarios puedan interactuar con él. A continuación se muestra un ejemplo del formato de la API:
+
 ```JSON
   {
     "id": 1,
@@ -34,13 +35,14 @@
 ```
 
 ## 1. Presentación del Proyecto
-
 La aplicación permite a los usuarios responder preguntas y recibir retroalimentación instantánea sobre sus respuestas.
+
 ## 2. Autores
 Somos un equipo de tres desarrolladores web que estamos realizando un curso de desarrollo frontend en CodeOp. Los integrantes del equipo son:
 - Felix Rodriguez
 - Isiah Zacarias
 - Laura Lopez
+
 ## 3. Instalación
 Para instalar y ejecutar el proyecto localmente, sigue estos pasos:
 Clonar el repositorio:
@@ -57,27 +59,19 @@ Ejecutar el servidor de desarrollo:
 bash
 npm run dev
 
-Construir la aplicación para producción:
-bash
-npm run build
-
-Previsualizar la aplicación construida:
-bash
-npm run preview
-
 ## 4. Diagrama de User Flow
 El siguiente diagrama de flujo representa la experiencia del usuario al interactuar con la aplicación:
 css
-[Inicio] --> [Pantalla de Bienvenida] --> [Pantalla de Preguntas]
-                            |                                    |
-                            v                                    v
-                   [Seleccionar Respuesta]               [Enviar Respuesta]
-                            |                                    |
-                            v                                    v
-                   [Verificación de Respuesta]   <--  [Retroalimentación]
-                            |
-                            v
-                 [Siguiente Pregunta o Finalizar]
+[Inicio] --> [home] --> [singup]  --> [Login]  --> [Select Categories]
+                                                           |
+                                                           v 
+                                               [Seleccionar Respuesta]        
+                                                           |         
+                                                           v         
+                                             [Verificación de Respuesta]   
+                                                           |
+                                                           v
+                                             [Siguiente Pregunta o Finalizar]
 
 ## 5. Diseño en Figma
 El diseño de la aplicación fue creado utilizando Figma. 
@@ -98,8 +92,8 @@ El diseño de la aplicación fue creado utilizando Figma.
 
 Puedes visualizar el diseño en el siguiente enlace:
 [Enlace al diseño de Figma](https://www.figma.com/design/vCcOTjJrNyCHJzGMxPzn1f/Duckbugger?node-id=0-1&t=rHOXxpnazOJFf2VW-1)
-## 6. Agradecimientos
-Queremos expresar nuestro agradecimiento a CodeOp por brindarnos las herramientas y el conocimiento necesario para desarrollar este proyecto. También agradecemos a la comunidad de desarrolladores que contribuyen a mejorar las tecnologías que utilizamos.
-text
 
-Este contenido está listo para ser usado en un archivo `README.md` en tu proyecto. Solo necesitas ajustarlo con tus enlaces y detalles específicos.
+## 6. Agradecimientos
+Queremos expresar nuestro agradecimiento a CodeOp por brindarnos las herramientas y el conocimiento necesario para desarrollar este proyecto. 
+
+
