@@ -1,3 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Bruno+Ace&family=Bruno+Ace+SC&family=Press+Start+2P&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer base {
+  body {
+    background-color: #08060b;
+    color: white;
+  }
+
+  h3,
+  p,
+  span,
+  a,
+  li,
+  button,
+  input,
+  ::placeholder {
+    font-family: "Bruno Ace";
+  }
+
+  h1 span,
+  h2,
+  h2 span {
+    font-family: "Press Start 2P";
+  }
+}
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(
+      hsl(288, 100%, 50%) 0%,
+      rgba(233, 233, 233, 1) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .correct {
+    @apply border-2 border-lime-400 text-white box-border;
+  }
+  .incorrect {
+    @apply border-2 border-red-500 text-white box-border;
+  }
+}
