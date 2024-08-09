@@ -5,7 +5,7 @@ import Signup from "../views/Signup.vue";
 import NotFound from "../views/NotFound.vue";
 import Categories from "../views/Categories.vue";
 import { createWebHistory, createRouter } from 'vue-router';
-import { useAuthStore } from '../stores/authStore'; // Importa el store de autenticación
+import { useAuthStore } from '../stores/authStore'; 
 
 const routes = [
   { path: "/", name: "home", component: Home },
@@ -13,18 +13,18 @@ const routes = [
     path: "/game", 
     name: "quiz", 
     component: Quiz,
-    meta: { requiresAuth: true } // Añade meta información para indicar que requiere autenticación
+    meta: { requiresAuth: true } 
   },
   { 
     path: "/categories", 
     name: "categories", 
     component: Categories,
-    meta: { requiresAuth: true } // Añade meta información para indicar que requiere autenticación
+    meta: { requiresAuth: true } 
   },
   { path: "/login", name: "login", component: Login},
   { path: "/signup", name: "signup", component: Signup},
-  // ToDo: implement forgot password feature
-  // { path: "/forgot", name: "forgot", component: Forgot},
+  
+  
   { path: "/:path(.*)", component: NotFound },
 ];
 
@@ -39,7 +39,7 @@ router.beforeEach((to, from, next) => {
     if (!authStore.isAuthenticated) {
       next({
         name: 'login',
-        query: { redirect: to.fullPath } // Guardar la ruta original a la que intentaba acceder
+        query: { redirect: to.fullPath } 
       });
     } else {
       next();
@@ -48,6 +48,5 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
-
 
 export default router;

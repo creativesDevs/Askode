@@ -1,5 +1,4 @@
 <template>
-    <!-- Questions -->
     <div >
       <h2 v-if="CurrentQuestion && CurrentQuestion.question" class="leading-loose px-2 sm:text-base md:text-2xl md:mx-24 text-gradient">
         {{ displayedText }}
@@ -32,7 +31,6 @@
       };
     },
     watch: {
-      // Detecta cambios en la pregunta actual y reinicia el efecto de escritura
       CurrentQuestion: {
         handler() {
           this.startTypingEffect();

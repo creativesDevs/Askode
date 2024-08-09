@@ -13,7 +13,7 @@ export const useAuthStore = defineStore('auth', {
       try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         this.user = userCredential.user;
-        await this.fetchUserName(); // Obtener el nombre de usuario después de iniciar sesión
+        await this.fetchUserName(); 
       } catch (error) {
         console.error('Login failed: ', error.message);
         throw error; 
@@ -23,7 +23,7 @@ export const useAuthStore = defineStore('auth', {
       try {
         await firebaseSignOut(auth);
         this.user = null;
-        this.username = null; // Limpiar el nombre de usuario al cerrar sesión
+        this.username = null; 
       } catch (error) {
         console.error('Logout failed: ', error.message);
         throw error; 
@@ -34,11 +34,10 @@ export const useAuthStore = defineStore('auth', {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
           this.user = user;
           if (user) {
-            await this.fetchUserName(); // Obtener el nombre de usuario cuando el estado de autenticación cambia
+            await this.fetchUserName();
           }
           resolve(user);
         });
-        // Puedes devolver la función unsubscribe para limpiar el listener si es necesario
         return unsubscribe;
       });
     },
@@ -50,20 +49,19 @@ export const useAuthStore = defineStore('auth', {
             this.username = userDoc.data().username;
           } else {
             console.error('No such document!');
-            this.username = 'User'; // Valor por defecto si no se encuentra el documento
+            this.username = 'User'; 
           }
         } catch (error) {
           console.error('Error getting user document: ', error.message);
-          this.username = 'User'; // Valor por defecto en caso de error
+          this.username = 'User'; 
         }
       } else {
-        this.username = 'User'; // Valor por defecto si no hay usuario
+        this.username = 'User'; 
       }
     }
   },
   getters: {
     isAuthenticated: (state) => !!state.user,
-    userName: (state) => state.username || 'User', // Usar el nombre de usuario obtenido de Firestore
-  },
+    userName: (state) => state.username || 'User',},
 });
 

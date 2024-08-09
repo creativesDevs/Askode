@@ -33,9 +33,7 @@ export default {
     },
     methods: {
         emitSelection(index) {
-            // Emite el evento 
             this.$emit('ButtonClass', index);
-            // Retorna la clase que viene del padre
             return this.$parent.buttonClass(index);
         },
         emitSelectionAnswers(index) {

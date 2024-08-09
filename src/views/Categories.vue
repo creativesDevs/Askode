@@ -1,17 +1,12 @@
 <template>
     <Navbar />
     <section class="flex flex-col gap-14 pt-20 items-center w-full h-full mt-20 overflow-hidden">
-        <!-- background gradients decorations -->
         <div class="absolute inset-0 bg-combined-gradient"></div>
-    
         <div class="absolute top-[-50%] left-[25%] bg-gradient-radial-2 w-[50vw] h-[50vw] rounded-full blur-[350px]">
         </div>
-    
         <div class="w-[80vw] min-h-[240px] bg-black/70 py-5 z-50 rounded-lg flex justify-center items-center">
-            <!-- GameOver -->
             <h2 class="text-5xl text-center text-gradient">{{ displayedCategoryText }}</h2>
         </div>
-        <!-- Selection buttons -->
         <div class="flex flex-col gap-20 z-10 w-fit">
             <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 z-10 gap-x-16 gap-y-10">
                 <li class="flex" v-for="category in categories" :key="category.id">
@@ -61,7 +56,7 @@ export default {
             limit: 10,
             displayedCategoryText: '',
             typingCounter: 0,
-            typingDelay: 50, // 50ms per character
+            typingDelay: 50, 
         };
     },
     methods: {
@@ -85,7 +80,7 @@ export default {
         },
         playCorrectSound() {
             const audio = new Audio(correctSound);
-            audio.volume = 0.2; // Adjust volume to 20%
+            audio.volume = 0.2; 
             audio.play();
         },
         startTypingCategoryEffect() {

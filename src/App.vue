@@ -14,12 +14,11 @@ export default {
     const router = useRouter();
 
     try {
-      await authStore.fetchUserName(); // Sincroniza el estado de autenticación
+      await authStore.fetchUserName();
     } catch (error) {
       console.error('Error fetching user name:', error);
     }
 
-    // Watcher para redirigir al home si el usuario se desloguea
     watch(
       () => authStore.isAuthenticated, 
       (newValue) => {
