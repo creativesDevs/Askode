@@ -2,7 +2,7 @@
 
 ## 1. Presentación del Proyecto
 
-**AskCode** es una aplicación web que consume la **Quiz API** para proporcionar a los usuarios una serie de preguntas de opción múltiple. Estas preguntas son devueltas en un formato JSON, que luego es renderizado en la aplicación para que los usuarios puedan interactuar con él. A continuación se muestra un ejemplo del formato de la API:
+**Askode** es una aplicación web que consume la **Quiz API** para proporcionar a los usuarios una serie de preguntas de opción múltiple. Estas preguntas son devueltas en un formato JSON, que luego es renderizado en la aplicación para que los usuarios puedan interactuar con él. A continuación se muestra un ejemplo del formato de la API:
 
 ```JSON
   {
