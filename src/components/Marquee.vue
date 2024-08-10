@@ -28,19 +28,26 @@
 </template>
 
 <script>
+import bashIcon from '../assets/icons/bash.png';
+import linuxIcon from '../assets/icons/linux.png';
+import codeIcon from '../assets/icons/code.png';
+import devopsIcon from '../assets/icons/devops.png';
+import cmsIcon from '../assets/icons/cms.png';
+import sqlIcon from '../assets/icons/sql.png';
+import dockerIcon from '../assets/icons/docker.png';
 export default {
   name: "MarqueeSection",
   data() {
     return {
       directions: ['right', 'left'],
       icons: [
-        { src: 'src/assets/icons/bash.png', alt: 'Bash icon' },
-        { src: 'src/assets/icons/linux.png', alt: 'Linux icon' },
-        { src: 'src/assets/icons/code.png', alt: 'Code icon' },
-        { src: 'src/assets/icons/devops.png', alt: 'DevOps icon' },
-        { src: 'src/assets/icons/cms.png', alt: 'CMS icon' },
-        { src: 'src/assets/icons/sql.png', alt: 'SQL icon' },
-        { src: 'src/assets/icons/docker.png', alt: 'Docker icon' }
+        { src: bashIcon, alt: 'Bash icon' },
+        { src: linuxIcon, alt: 'Linux icon' },
+        { src: codeIcon, alt: 'Code icon' },
+        { src: devopsIcon, alt: 'DevOps icon' },
+        { src: cmsIcon, alt: 'CMS icon' },
+        { src: sqlIcon, alt: 'SQL icon' },
+        { src: dockerIcon, alt: 'Docker icon' }
       ]
     }
   },

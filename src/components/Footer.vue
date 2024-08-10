@@ -21,14 +21,17 @@
 </template>
 
 <script>
+import linkedinIcon from '../assets/icons/linkedin.png';
+import instagramIcon from '../assets/icons/instagram.png';
+import xIcon from '../assets/icons/x.png';
 export default {
   name: 'Footer',
   data() {
     return {
       networks: [
-        { src: 'src/assets/icons/linkedin.png', alt: 'LinkedIn icon', url: 'https://www.linkedin.com' },
-        { src: 'src/assets/icons/instagram.png', alt: 'Instagram icon', url: 'https://www.instagram.com' },
-        { src: 'src/assets/icons/x.png', alt: 'X icon', url: 'https://www.x.com' }
+        { src: linkedinIcon, alt: 'LinkedIn icon', url: 'https://www.linkedin.com' },
+        { src: instagramIcon, alt: 'Instagram icon', url: 'https://www.instagram.com' },
+        { src: xIcon, alt: 'X icon', url: 'https://www.x.com' }
       ]
     };
   }
