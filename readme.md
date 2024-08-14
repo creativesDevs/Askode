@@ -60,7 +60,12 @@ Ejecutar el servidor de desarrollo:
 ```
 npm run dev
 ```
-Crea un archivo .env para las variables de entorno necesarias.
+Crea un archivo `.env` para las variables de entorno necesarias.
+Es necesario registrarse en [QuizApi](https://quizapi.io/) para conseguir una API Key válida.
+```
+VITE_API_KEY_QUIZ=(sustituir por una API Key válida)
+VITE_BASE_URL=http://localhost:5173/
+```
 
 ## 4. Diagrama de User Flow
 El siguiente diagrama de flujo representa la experiencia del usuario al interactuar con la aplicación:
