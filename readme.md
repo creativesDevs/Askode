@@ -60,7 +60,7 @@ Ejecutar el servidor de desarrollo:
 ```
 npm run dev
 ```
-Crea un archivo `.env` para las variables de entorno necesarias.
+Crea un archivo `.env` en la raíz del proyecto para las variables de entorno necesarias.
 Es necesario registrarse en [QuizApi](https://quizapi.io/) para conseguir una API Key válida.
 ```
 VITE_API_KEY_QUIZ=(sustituir por una API Key válida)
