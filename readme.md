@@ -52,26 +52,20 @@ cd askcode
 
 Instalar las dependencias:
 Asegúrate de tener Node.js instalado en tu sistema.
-bash
-npm install
+```
 
+npm install
+```
 Ejecutar el servidor de desarrollo:
-bash
+```
 npm run dev
+```
+Crea un archivo .env para las variables de entorno necesarias.
 
 ## 4. Diagrama de User Flow
 El siguiente diagrama de flujo representa la experiencia del usuario al interactuar con la aplicación:
-css
-[Inicio] --> [home] --> [singup]  --> [Login]  --> [Select Categories]
-                                                           |
-                                                           v 
-                                               [Seleccionar Respuesta]        
-                                                           |         
-                                                           v         
-                                             [Verificación de Respuesta]   
-                                                           |
-                                                           v
-                                             [Siguiente Pregunta o Finalizar]
+<img src="src/assets/img/figma/User flow.png" alt="Diseño la Home page" title="Diseño la Home page" style="width: 100%;">
+
 
 ## 5. Diseño en Figma
 El diseño de la aplicación fue creado utilizando Figma. 
