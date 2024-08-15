@@ -94,5 +94,3 @@ Puedes visualizar el diseño en el siguiente enlace:
 
 ## 6. Agradecimientos
 Queremos expresar nuestro agradecimiento a CodeOp por brindarnos las herramientas y el conocimiento necesario para desarrollar este proyecto. 
-
-
