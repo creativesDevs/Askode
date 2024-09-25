@@ -1,4 +1,4 @@
-# AskCode
+# Askode
 
 ## 1. Presentación del Proyecto
 
@@ -47,7 +47,7 @@ Somos un equipo de tres desarrolladores web que estamos realizando un curso de d
 Para instalar y ejecutar el proyecto localmente, sigue estos pasos:
 Clonar el repositorio:
 bash
-git clone https://github.com/creativesDevs/Duckgger.git
+git clone https://github.com/creativesDevs/Askode.git
 cd askcode
 
 Instalar las dependencias:
